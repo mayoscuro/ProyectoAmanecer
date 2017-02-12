@@ -55,6 +55,8 @@
   <libraryPaths>
     <element path="C:\Users\Usuario\Desktop\starling\starling\bin" />
     <element path="C:\Users\Usuario\Desktop\starling\starling\bin\starling.swc" />
+    <element path="C:\Users\Usuario\Desktop\starling\GreenSock-AS3" />
+    <element path="C:\Users\Usuario\Desktop\starling\GreenSock-AS3\greensock.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
