@@ -1,14 +1,17 @@
-package
-{
+package{
+
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import starling.core.Starling;
 	
 	/**
 	 * ...
 	 * @author JesúsDavid
 	 */
+	[SWF(width="900", height="675", frameRate="60", backgroundColor="#002143")]
 	public class Main extends Sprite 
 	{
+		private var mStarling:Starling;
 		
 		public function Main() 
 		{
@@ -19,7 +22,9 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			// entry point
+			mStarling = new Starling(Level1, stage);
+			mStarling.antiAliasing = 2;
+			mStarling.start();
 		}
 		
 	}

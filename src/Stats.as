@@ -11,7 +11,7 @@
  *
  **/
 
-package net.hires.debug {
+package  {
 	
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
