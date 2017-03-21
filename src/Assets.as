@@ -12,13 +12,13 @@ package
 		[Embed(source = "../media/images/background.png")]
 		public static const background:Class;
 		
-		/*[Embed(source = "../media/Fondos/play_pequeño.png")]
-		public static const playpeque:Class;
+		[Embed(source = "../media/images/cañon.png")]
+		public static const canon:Class;
 		
-		[Embed(source = "../media/Fondos/seleccion_pequeña.png")]
-		public static const selecpeque:Class;
+		[Embed(source = "../media/images/base_cañon.png")]
+		public static const base_canon:Class;
 		
-		[Embed(source = "../media/Fondos/Instruciones.png")]
+		/*[Embed(source = "../media/Fondos/Instruciones.png")]
 		public static const instruciones:Class;
 		
 		[Embed(source = "../media/Fondos/play.png")]

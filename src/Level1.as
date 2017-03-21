@@ -16,10 +16,10 @@ package
 
 	public class Level1 extends Sprite
 	{
-		private var imageAtlas:Bitmap;
-		private var imageAtlasTexture:Texture;
-		private var xmlImageAtlas:XML;
+	
 		private var bg:Image;
+		private var Torreta:Player;
+		
 
 		
 	
@@ -34,11 +34,15 @@ package
 		private function onAddedtoStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
+			
 			bg =  new Image(Assets.getTexture("background"));
-			addChild(bg);
-			bg.x = stage.width / 0.27;
-			bg.y = stage.height / 0.4;
-		
+			addChildAt(bg, 0);
+			Torreta = new Player();
+			Torreta.x = stage.width / 1.3;
+			Torreta.y = stage.height / 1.4;
+			addChildAt(Torreta,1);
+			
+			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
