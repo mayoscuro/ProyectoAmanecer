@@ -35,12 +35,17 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
 			
-			bg =  new Image(Assets.getTexture("background"));
-			addChildAt(bg, 0);
 			Torreta = new Player();
-			Torreta.x = stage.width / 1.3;
-			Torreta.y = stage.height / 1.4;
-			addChildAt(Torreta,1);
+			//Torreta.alignPivot("center", "center");
+			Torreta.x = (stage.stageWidth - Torreta.width)  * 0.45;
+			Torreta.y = (stage.stageHeight - Torreta.height)  * 0.4;
+			bg =  new Image(Assets.getTexture("background"));
+			
+			
+			
+			addChild(bg);
+			addChild(Torreta);
+			
 			
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);

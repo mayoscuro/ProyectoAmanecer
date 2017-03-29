@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'21/03/2017'</value>
+      <value>'29/03/2017'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -32,14 +32,14 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>E:\VIDEOJUEGOS\3º\JUEGOS WEB\ProyectoAmanecer\src</path-element>
-      <path-element>E:\VIDEOJUEGOS\2º\JUEGOS WEB\starling\starling\src</path-element>
-      <path-element>E:\FALSHDELVEMOLPEN\Library\AS3\classes</path-element>
+      <path-element>C:\Users\Usuario\Desktop\universidad\4º\JuegosWeb\ProyectoAmanecer\src</path-element>
+      <path-element>C:\Users\Usuario\Desktop\universidad\4º\JuegosWeb\ProyectoAmanecer\starling\Starling-Framework-1.8\starling\src</path-element>
+      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true" />
   </compiler>
   <file-specs>
-    <path-element>E:\VIDEOJUEGOS\3º\JUEGOS WEB\ProyectoAmanecer\src\Main.as</path-element>
+    <path-element>C:\Users\Usuario\Desktop\universidad\4º\JuegosWeb\ProyectoAmanecer\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
