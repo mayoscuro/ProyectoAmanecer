@@ -21,8 +21,9 @@ import flash.events.MouseEvent;
 		private var player:MovieClip;
 		private var canon:Image;
 		private var base_canon:Image;
-		private var mouseX:Number;
-		private var mouseY:Number;
+		private var _rotateSpeedMax:Number = 15;
+		
+		private var _trueRotation:Number = 0;
 		
 		
 		public function Player()
@@ -35,25 +36,19 @@ import flash.events.MouseEvent;
 		{
 
 			base_canon = new Image(Assets.getTexture("base_canon"));
-			addChild(base_canon)
+			addChild(base_canon);
 			canon = new Image(Assets.getTexture("canon"));
 			addChild(canon);
 			
-			this.addEventListener(Event.ENTER_FRAME,on_enter_frame);
-			removeEventListener(Event.ADDED_TO_STAGE, onStage);
-			
 		}
 
-		private function onTouch(e:TouchEvent):void
-		{
-
-		}
+		/*public function get velocityX():Number { return _velocityX; }
 		
-		
-		private function on_enter_frame(e:Event):void
+		public function set velocityX(value:Number):void 
 		{
-
+			_velocityX = value;
 		}
+	*/
 
 		
 	}

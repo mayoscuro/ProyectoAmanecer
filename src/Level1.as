@@ -1,6 +1,6 @@
 package 
 {
-		import flash.display.Bitmap;
+	import flash.display.Bitmap;
 	import starling.display.DisplayObjectContainer;
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -10,6 +10,7 @@ package
 	import starling.events.KeyboardEvent;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
+	import flash.events.MouseEvent;
 	//import flash.display.DisplayObjectContainer;
 	
 	/**
@@ -29,6 +30,19 @@ package
 		private var _minY:int;
 		private var _maxX:int;
 		private var _maxY:int;
+		
+		
+		//player settings:
+		private var _trueRotation:Number = 0;
+		private var _dx:Number = 0;
+		private var _dy:Number = 0;
+		private var _destinationX:int = 150;
+		private var _destinationY:int = 150;
+		private var _rotateSpeedMax:Number = 15;
+		
+		
+		
+		
 		
 		//Esto es para poner los limites del mapa y que las pelotas no se salgan y reboten y tal:
 		private function setBoundries():void{
@@ -67,20 +81,61 @@ package
 			bg =  new Image(Assets.getTexture("background"));
 			
 			
-			
 			addChild(bg);
 			stage.addChild(ball);
 			addChild(torreta);
 			
 			
-			
+			addEventListener(MouseEvent.MOUSE_MOVE, mMove);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			
 		}
 		
 		
 		private function onEnterFrame(e:Event):void 
 		{
 			ballMovement();
+			torretaMovement();
+		}
+		
+		
+
+		private function mMove(e:MouseEvent):void {
+			_dx = e.stageX;
+			_dy = e.stageY;
+			
+		}  
+		
+		private function torretaMovement():void{ 
+			trace(_dx+", "+ _dy);
+			// which way to rotate
+			var rotateTo:Number = getDegrees(getRadians(_dx, _dy));
+ 
+			// keep rotation positive, between 0 and 360 degrees
+			if (rotateTo > torreta.rotation + 180) rotateTo -= 360;
+			if (rotateTo < torreta.rotation - 180) rotateTo += 360;
+ 
+			// ease rotation
+			_trueRotation = (rotateTo - torreta.rotation) / _rotateSpeedMax;
+ 
+			// update rotation
+			torreta.rotation += _trueRotation;
+		}
+		
+		public function getDegrees(radians:Number):Number
+		{
+			return Math.floor(radians/(Math.PI/180));
+		}
+		
+		public function getRadians(delta_x:Number, delta_y:Number):Number
+		{
+			var r:Number = Math.atan2(delta_y, delta_x);
+ 
+			if (delta_y < 0)
+			{
+				r += (2 * Math.PI);
+			}
+			return r;
 		}
 		
 		private function ballMovement():void{
@@ -110,7 +165,6 @@ package
 			// actualizar la posición de la pelota:
 			ball.x += ball.velocityX;
 			ball.y += ball.velocityY;
-			
 		}
 	}
 		
