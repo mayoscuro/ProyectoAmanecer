@@ -12,7 +12,7 @@ package
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	//import flash.events.MouseEvent;
+	import flash.events.MouseEvent;
 	
 	/**
 	 * ...
@@ -83,9 +83,11 @@ package
 			stage.addChild(ball);
 			addChild(torreta);
 			
-			
+			bg.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
+			torreta.addEventListener(Event.ENTER_FRAME, enterFrameTorreta);
+			
 			
 			
 		}
@@ -99,13 +101,23 @@ package
 					mouseY = touch.globalY;
 					torreta.pivotX = torreta.width  *0.5;
 					torreta.pivotY = torreta.height  *0.5;
-					torreta.rotation = (Math.atan2(mouseY, mouseX) * 180 / Math.PI);
+					
 					
 				}
 			}catch(e){
 				
 			}
 
+		}
+		
+		private function enterFrameTorreta(e:Event):void{
+			var angleRadian=Math.atan2(mouseY-torreta.y,mouseX-torreta.x);
+			// Convert the radian angle in dedree
+			var angleDegree = angleRadian * 180 / Math.PI;
+			// Set the orientation
+			torreta.rotation = angleDegree;
+			// Display angle of rotation in degree
+			trace( Math.round(angleDegree) + "°");
 		}
 		
 		
@@ -150,6 +162,18 @@ package
 			ball.x += ball.velocityX;
 			ball.y += ball.velocityY;
 		}
+		
+		private function mouseDown(pEvent:MouseEvent):void {
+			
+			var b = new PlayerBall(torreta.x,torreta.y);
+			
+			b.angleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
+			
+			//b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);
+			
+			addChild(b);
+			trace("creado");
+}
 	}
 		
 }
