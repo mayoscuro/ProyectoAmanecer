@@ -7,11 +7,12 @@ package
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.events.KeyboardEvent;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
-	import flash.events.MouseEvent;
-	//import flash.display.DisplayObjectContainer;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
+	//import flash.events.MouseEvent;
 	
 	/**
 	 * ...
@@ -32,13 +33,9 @@ package
 		private var _maxY:int;
 		
 		
-		//player settings:
-		private var _trueRotation:Number = 0;
-		private var _dx:Number = 0;
-		private var _dy:Number = 0;
-		private var _destinationX:int = 150;
-		private var _destinationY:int = 150;
-		private var _rotateSpeedMax:Number = 15;
+		//Mouse position:
+		private var mouseX:Number = 0;
+		private var mouseY:Number = 0;
 		
 		
 		
@@ -67,6 +64,7 @@ package
 		{
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
+			
 		}
 		
 		private function onAddedtoStage(e:Event):void 
@@ -86,56 +84,42 @@ package
 			addChild(torreta);
 			
 			
-			addEventListener(MouseEvent.MOUSE_MOVE, mMove);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			addEventListener(TouchEvent.TOUCH, onMouseMove);
 			
+			
+		}
+		
+		private function onMouseMove(e:TouchEvent):void{
+			var touch:Touch = e.getTouch(this);
+			try{//Para que no se rompa el juego cuando el touch.phase sea null(el raton se salga de la pantalla).
+				if(touch.phase == TouchPhase.HOVER)
+				{
+					mouseX = touch.globalX;
+					mouseY = touch.globalY;
+					torreta.pivotX = torreta.width  *0.5;
+					torreta.pivotY = torreta.height  *0.5;
+					torreta.rotation = (Math.atan2(mouseY, mouseX) * 180 / Math.PI);
+					
+				}
+			}catch(e){
+				
+			}
+
 		}
 		
 		
 		private function onEnterFrame(e:Event):void 
 		{
 			ballMovement();
-			torretaMovement();
-		}
-		
-		
-
-		private function mMove(e:MouseEvent):void {
-			_dx = e.stageX;
-			_dy = e.stageY;
+			trace(mouseX);
+			trace(mouseY);
 			
-		}  
-		
-		private function torretaMovement():void{ 
-			trace(_dx+", "+ _dy);
-			// which way to rotate
-			var rotateTo:Number = getDegrees(getRadians(_dx, _dy));
- 
-			// keep rotation positive, between 0 and 360 degrees
-			if (rotateTo > torreta.rotation + 180) rotateTo -= 360;
-			if (rotateTo < torreta.rotation - 180) rotateTo += 360;
- 
-			// ease rotation
-			_trueRotation = (rotateTo - torreta.rotation) / _rotateSpeedMax;
- 
-			// update rotation
-			torreta.rotation += _trueRotation;
 		}
 		
 		public function getDegrees(radians:Number):Number
 		{
 			return Math.floor(radians/(Math.PI/180));
-		}
-		
-		public function getRadians(delta_x:Number, delta_y:Number):Number
-		{
-			var r:Number = Math.atan2(delta_y, delta_x);
- 
-			if (delta_y < 0)
-			{
-				r += (2 * Math.PI);
-			}
-			return r;
 		}
 		
 		private function ballMovement():void{
