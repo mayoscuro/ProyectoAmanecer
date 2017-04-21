@@ -53,6 +53,10 @@ import flash.events.MouseEvent;
 			_velocityY = value;
 		}
 		
+		public function removeBall(){
+			removeChild(ball);
+		}
+		
 		
 	}
 	

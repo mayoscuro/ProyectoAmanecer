@@ -37,6 +37,7 @@ package
 		private var mouseX:Number = 0;
 		private var mouseY:Number = 0;
 		
+		//b velocity:
 		private var speed:Number = 5;
 		
 		
@@ -102,13 +103,21 @@ package
 			if (b.x < 0 || b.x > 1000 || b.y < 0 || b.y > 700) {
 				removeChild(b);
 				b.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
+			} 
+			if(b.x > ball.x - ball.width / 2 && 
+            b.x < ball.x + ball.width / 2 &&
+            b.y > ball.y - ball.height / 2 && 
+            b.y < ball.y + ball.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
+				ball.removeBall();
+				removeChild(ball);
+				trace("Dado loco")
 			}
 		}
 		
 		private function onMouseMove(e:TouchEvent):void{
 			var touch:Touch = e.getTouch(this);
 			try{//Para que no se rompa el juego cuando el touch.phase sea null(el raton se salga de la pantalla).
-				if(touch.phase == TouchPhase.HOVER)
+				if(touch.phase == TouchPhase.HOVER)// si se mueve el raton
 				{
 					mouseX = touch.globalX;
 					mouseY = touch.globalY;
@@ -116,16 +125,16 @@ package
 					torreta.pivotY = torreta.height  *0.5;
 					
 					
-				}else if(touch.phase == TouchPhase.BEGAN){
+				}else if(touch.phase == TouchPhase.BEGAN){//Si se pulsa en la pantalla(o click del raton)
 					
 					var b = new PlayerBall(torreta.x,torreta.y);
 			
 					b.angleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
 			
-					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);
+					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
 			
 					addChild(b);
-					trace("creado");
+					
 				}
 			}catch(e){
 				
@@ -137,7 +146,7 @@ package
 			var angleRadian=Math.atan2(mouseY-torreta.y,mouseX-torreta.x);
 			var angleDegree = angleRadian * 180 / Math.PI;
 			torreta.rotation = angleDegree;
-			trace( Math.round(angleDegree) + "°");
+			//trace( Math.round(angleDegree) + "°");
 		}
 		
 		
