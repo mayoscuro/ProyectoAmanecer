@@ -37,6 +37,8 @@ package
 		private var mouseX:Number = 0;
 		private var mouseY:Number = 0;
 		
+		private var speed:Number = 5;
+		
 		
 		
 		
@@ -83,13 +85,24 @@ package
 			stage.addChild(ball);
 			addChild(torreta);
 			
-			bg.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
 			torreta.addEventListener(Event.ENTER_FRAME, enterFrameTorreta);
 			
 			
 			
+		}
+		
+		function bulletEnterFrame(e:Event) {
+			var b = e.currentTarget;
+			b.x +=  Math.cos(b.angleRadian) * speed;
+			b.y +=  Math.sin(b.angleRadian) * speed;
+			b.rotation = b.angleRadian * 180 / Math.PI;
+			if (b.x < 0 || b.x > 1000 || b.y < 0 || b.y > 700) {
+				removeChild(b);
+				b.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
+			}
 		}
 		
 		private function onMouseMove(e:TouchEvent):void{
@@ -103,6 +116,16 @@ package
 					torreta.pivotY = torreta.height  *0.5;
 					
 					
+				}else if(touch.phase == TouchPhase.BEGAN){
+					
+					var b = new PlayerBall(torreta.x,torreta.y);
+			
+					b.angleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
+			
+					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);
+			
+					addChild(b);
+					trace("creado");
 				}
 			}catch(e){
 				
@@ -112,11 +135,8 @@ package
 		
 		private function enterFrameTorreta(e:Event):void{
 			var angleRadian=Math.atan2(mouseY-torreta.y,mouseX-torreta.x);
-			// Convert the radian angle in dedree
 			var angleDegree = angleRadian * 180 / Math.PI;
-			// Set the orientation
 			torreta.rotation = angleDegree;
-			// Display angle of rotation in degree
 			trace( Math.round(angleDegree) + "°");
 		}
 		
@@ -163,17 +183,6 @@ package
 			ball.y += ball.velocityY;
 		}
 		
-		private function mouseDown(pEvent:MouseEvent):void {
-			
-			var b = new PlayerBall(torreta.x,torreta.y);
-			
-			b.angleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
-			
-			//b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);
-			
-			addChild(b);
-			trace("creado");
-}
 	}
 		
 }
