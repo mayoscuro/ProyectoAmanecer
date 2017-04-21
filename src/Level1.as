@@ -32,6 +32,9 @@ package
 		private var _maxX:int;
 		private var _maxY:int;
 		
+		//Enemy's vector:
+		private var enemigos:Vector.<Ball> = new Vector.<Ball>();
+		
 		
 		//Mouse position:
 		private var mouseX:Number = 0;
@@ -39,6 +42,9 @@ package
 		
 		//b velocity:
 		private var speed:Number = 5;
+		
+		//Puntos:
+		private var score:int = 0;
 		
 		
 		
@@ -53,14 +59,23 @@ package
 		}
 		
 		private function spawnBalls():void{
-			var newRandomVelX:Number = Math.random() * 10 - 10;
-			var newRandomVelY:Number = Math.random() * 10 - 10;
-			var newRandomPositionX:Number = Math.random() * (_maxX- _minX) + _minX;
-			var newRandomPositionY:Number = Math.random() * (_maxY- _minY) + _minY;
+			var x:int = 0;
+			var newRandomVelX:Number;
+			var newRandomVelY:Number;
+			var newRandomPositionX:Number;
+			var newRandomPositionY:Number;
+			while (x<10){
+				newRandomVelX = Math.random() * 3 - 3;
+				newRandomVelY = Math.random() * 3 - 3;
+				newRandomPositionX = Math.random() * (_maxX- _minX) + _minX;
+				newRandomPositionY = Math.random() * (_maxY- _minY) + _minY;
  
-			//Ball usage: new Ball(x, y, velocity X, velocity Y);
-			ball = new Ball(newRandomPositionX, newRandomPositionY, newRandomVelX,newRandomVelY);
-			
+				//Ball usage: new Ball(x, y, velocity X, velocity Y);
+				ball = new Ball(newRandomPositionX, newRandomPositionY, newRandomVelX, newRandomVelY);
+				enemigos.push(ball);
+				stage.addChild(ball);
+				x = x + 1;
+			}
 		}
 		
 		public function Level1() 
@@ -83,7 +98,7 @@ package
 			
 			
 			addChild(bg);
-			stage.addChild(ball);
+			
 			addChild(torreta);
 			
 			
@@ -104,13 +119,18 @@ package
 				removeChild(b);
 				b.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
 			} 
-			if(b.x > ball.x - ball.width / 2 && 
-            b.x < ball.x + ball.width / 2 &&
-            b.y > ball.y - ball.height / 2 && 
-            b.y < ball.y + ball.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
-				ball.removeBall();
-				removeChild(ball);
-				trace("Dado loco")
+			
+			for each (var pelota in enemigos){
+				if(b.x > pelota.x - pelota.width / 2 && 
+					b.x < pelota.x + pelota.width / 2 &&
+					b.y > pelota.y - pelota.height / 2 && 
+					b.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
+						score += pelota.getScore();
+						trace(score);
+						enemigos.removeAt(enemigos.indexOf(pelota));
+						pelota.removeBall();
+						removeChild(pelota);
+				}
 			}
 		}
 		
@@ -152,9 +172,15 @@ package
 		
 		private function onEnterFrame(e:Event):void 
 		{
-			ballMovement();
-			trace(mouseX);
-			trace(mouseY);
+			for each(var pelota in enemigos){
+				ballMovement(pelota);
+			}
+			
+			if(enemigos.length == 0){
+				trace("Ya has ganado xD");
+			}
+			//trace(mouseX);
+			//trace(mouseY);
 			
 		}
 		
@@ -163,33 +189,33 @@ package
 			return Math.floor(radians/(Math.PI/180));
 		}
 		
-		private function ballMovement():void{
+		private function ballMovement(pelota:Ball):void{
 
 			//Comprobaciones para que no se salga de la panatalla:
-			if (((ball.x - ball.width / 2) < _minX) && (ball.velocityX < 0))
+			if (((pelota.x - pelota.width / 2) < _minX) && (pelota.velocityX < 0))
 			{
-			  ball.velocityX = -ball.velocityX;
-			}
+			pelota.velocityX = -pelota.velocityX;
+			}else
 
-			if ((ball.x + ball.width / 2) > _maxX && (ball.velocityX > 0))
+			if ((pelota.x + pelota.width / 2) > _maxX && (pelota.velocityX > 0))
 			{
-			  ball.velocityX = -ball.velocityX;
-			}
+			pelota.velocityX = -pelota.velocityX;
+			}else
  
 
-			if (((ball.y - ball.height / 2) < _minY) && (ball.velocityY < 0))
+			if (((pelota.y - pelota.height / 2) < _minY) && (pelota.velocityY < 0))
 			{
-			  ball.velocityY = -ball.velocityY
-			}
+			pelota.velocityY = -pelota.velocityY
+			}else
 
-			if (((ball.y + ball.height / 2) > _maxY) && (ball.velocityY > 0))
+			if (((pelota.y + pelota.height / 2) > _maxY) && (pelota.velocityY > 0))
 			{
-			  ball.velocityY = -ball.velocityY;
+			pelota.velocityY = -pelota.velocityY;
 			}
  
 			// actualizar la posición de la pelota:
-			ball.x += ball.velocityX;
-			ball.y += ball.velocityY;
+			pelota.x += pelota.velocityX;
+			pelota.y += pelota.velocityY;
 		}
 		
 	}

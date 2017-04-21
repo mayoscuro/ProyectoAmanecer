@@ -20,6 +20,7 @@ import flash.events.MouseEvent;
 		private var _velocityX:Number = 0;
 		private var _velocityY:Number = 0;
 		private var ball:Image;
+		private var score:int = 10;
 		
 		public function Ball(x:Number, y:Number, velocityX:Number, velocityY:Number) 
 		{
@@ -55,6 +56,10 @@ import flash.events.MouseEvent;
 		
 		public function removeBall(){
 			removeChild(ball);
+		}
+		
+		public function getScore(): int{
+			return score;
 		}
 		
 		
