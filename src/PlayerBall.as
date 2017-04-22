@@ -17,17 +17,15 @@ import flash.events.MouseEvent;
 	public class PlayerBall extends Sprite
 	{
 		
-		private var _velocityX:Number = 0;
-		private var _velocityY:Number = 0;
+		private var _velocityX:Number = 5;
+		private var _velocityY:Number = 5;
 		private var ball:Image;
 		public var angleRadian:Number;
 		
 		public function PlayerBall(x:Number, y:Number) 
 		{
-			this.x = x
-			this.y = y
-			_velocityX = velocityX
-			_velocityY = velocityY;
+			this.x = x;
+			this.y = y;
 			
 			ball = new Image(Assets.getTexture("base_canon"));
 			ball.height = ball.height /3;
@@ -39,6 +37,9 @@ import flash.events.MouseEvent;
 		//-----------------------------
 		// Getters & Setters
 		//-----------------------------
+		
+		public function get getAngleRadian():Number{return angleRadian; }
+		public function set setAngleRadian(angleRadians:Number):void{this.angleRadian = angleRadians; }
 		
 		public function get velocityX():Number { return _velocityX; }
 		

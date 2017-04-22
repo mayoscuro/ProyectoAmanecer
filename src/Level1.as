@@ -40,9 +40,6 @@ package
 		private var mouseX:Number = 0;
 		private var mouseY:Number = 0;
 		
-		//b velocity:
-		private var speed:Number = 5;
-		
 		//Puntos:
 		private var score:int = 0;
 		
@@ -112,9 +109,9 @@ package
 		
 		function bulletEnterFrame(e:Event) {
 			var b = e.currentTarget;
-			b.x +=  Math.cos(b.angleRadian) * speed;
-			b.y +=  Math.sin(b.angleRadian) * speed;
-			b.rotation = b.angleRadian * 180 / Math.PI;
+			b.x +=  Math.cos(b.getAngleRadian) * b.velocityX;
+			b.y +=  Math.sin(b.getAngleRadian) * b.velocityY;
+			b.rotation = b.getAngleRadian * 180 / Math.PI;
 			if (b.x < 0 || b.x > 1000 || b.y < 0 || b.y > 700) {
 				removeChild(b);
 				b.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
@@ -146,15 +143,10 @@ package
 					
 					
 				}else if(touch.phase == TouchPhase.BEGAN){//Si se pulsa en la pantalla(o click del raton)
-					
 					var b = new PlayerBall(torreta.x,torreta.y);
-			
-					b.angleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
-			
+					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
 					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
-			
 					addChild(b);
-					
 				}
 			}catch(e){
 				
@@ -176,11 +168,9 @@ package
 				ballMovement(pelota);
 			}
 			
-			if(enemigos.length == 0){
+			if(enemigos.length == 0){//Cuando ya no quedan enemigos, el jugador ha ganado.
 				trace("Ya has ganado xD");
 			}
-			//trace(mouseX);
-			//trace(mouseY);
 			
 		}
 		
@@ -192,25 +182,14 @@ package
 		private function ballMovement(pelota:Ball):void{
 
 			//Comprobaciones para que no se salga de la panatalla:
-			if (((pelota.x - pelota.width / 2) < _minX) && (pelota.velocityX < 0))
-			{
-			pelota.velocityX = -pelota.velocityX;
-			}else
-
-			if ((pelota.x + pelota.width / 2) > _maxX && (pelota.velocityX > 0))
-			{
-			pelota.velocityX = -pelota.velocityX;
-			}else
- 
-
-			if (((pelota.y - pelota.height / 2) < _minY) && (pelota.velocityY < 0))
-			{
-			pelota.velocityY = -pelota.velocityY
-			}else
-
-			if (((pelota.y + pelota.height / 2) > _maxY) && (pelota.velocityY > 0))
-			{
-			pelota.velocityY = -pelota.velocityY;
+			if (((pelota.x - pelota.width / 2) < _minX) && (pelota.velocityX < 0)){
+				pelota.velocityX = -pelota.velocityX;
+			}else if ((pelota.x + pelota.width / 2) > _maxX && (pelota.velocityX > 0)){
+				pelota.velocityX = -pelota.velocityX;
+			}else if (((pelota.y - pelota.height / 2) < _minY) && (pelota.velocityY < 0)){
+				pelota.velocityY = -pelota.velocityY
+			}else if (((pelota.y + pelota.height / 2) > _maxY) && (pelota.velocityY > 0)){
+				pelota.velocityY = -pelota.velocityY;
 			}
  
 			// actualizar la posición de la pelota:
