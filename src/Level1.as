@@ -13,6 +13,8 @@ package
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	/**
 	 * ...
@@ -41,10 +43,12 @@ package
 		private var mouseY:Number = 0;
 		
 		//Puntos:
-		private var score:int = 0;
+		private var score:int = 1000;
+		var frames:int = 0;//Cuenta los frames.
+		var segundos:int = 0;//Cada 20 frames, un segundo.
 		
-		
-		
+		//Acabar nivel:
+		private var fin:Boolean = false;
 		
 		
 		//Esto es para poner los limites del mapa y que las pelotas no se salgan y reboten y tal:
@@ -95,7 +99,6 @@ package
 			
 			
 			addChild(bg);
-			
 			addChild(torreta);
 			
 			
@@ -104,15 +107,15 @@ package
 			torreta.addEventListener(Event.ENTER_FRAME, enterFrameTorreta);
 			
 			
-			
 		}
+		
 		
 		function bulletEnterFrame(e:Event) {
 			var b = e.currentTarget;
 			b.x +=  Math.cos(b.getAngleRadian) * b.velocityX;
 			b.y +=  Math.sin(b.getAngleRadian) * b.velocityY;
 			b.rotation = b.getAngleRadian * 180 / Math.PI;
-			if (b.x < 0 || b.x > 1000 || b.y < 0 || b.y > 700) {
+			if (b.x < 0 || b.x > 1000 || b.y < 0 || b.y > 700) {//Si se sale del mapa elimina la bola(del jugador).
 				removeChild(b);
 				b.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
 			} 
@@ -123,7 +126,7 @@ package
 					b.y > pelota.y - pelota.height / 2 && 
 					b.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
 						score += pelota.getScore();
-						trace(score);
+						//trace(score);
 						enemigos.removeAt(enemigos.indexOf(pelota));
 						pelota.removeBall();
 						removeChild(pelota);
@@ -134,7 +137,7 @@ package
 		private function onMouseMove(e:TouchEvent):void{
 			var touch:Touch = e.getTouch(this);
 			try{//Para que no se rompa el juego cuando el touch.phase sea null(el raton se salga de la pantalla).
-				if(touch.phase == TouchPhase.HOVER)// si se mueve el raton
+				if(touch.phase == TouchPhase.HOVER && !fin)// si se mueve el raton
 				{
 					mouseX = touch.globalX;
 					mouseY = touch.globalY;
@@ -142,7 +145,7 @@ package
 					torreta.pivotY = torreta.height  *0.5;
 					
 					
-				}else if(touch.phase == TouchPhase.BEGAN){//Si se pulsa en la pantalla(o click del raton)
+				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
 					var b = new PlayerBall(torreta.x,torreta.y);
 					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
 					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
@@ -164,12 +167,25 @@ package
 		
 		private function onEnterFrame(e:Event):void 
 		{
+			frames ++;
+			//20 FRAMES UN SEGUNDO;
+			if (frames == 20){
+				segundos = 1;
+				frames = 0;
+			}else{
+				segundos = 0;
+			}
+			if(!fin){
+				score-= segundos;
+				trace(score);
+			}
 			for each(var pelota in enemigos){
 				ballMovement(pelota);
 			}
 			
-			if(enemigos.length == 0){//Cuando ya no quedan enemigos, el jugador ha ganado.
+			if(enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
 				trace("Ya has ganado xD");
+				fin = true;
 			}
 			
 		}

@@ -20,7 +20,7 @@ import flash.events.MouseEvent;
 		private var _velocityX:Number = 0;
 		private var _velocityY:Number = 0;
 		private var ball:Image;
-		private var score:int = 10;
+		private var score:int = 50;
 		
 		public function Ball(x:Number, y:Number, velocityX:Number, velocityY:Number) 
 		{

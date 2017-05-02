@@ -23,7 +23,7 @@ package{
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			mStarling = new Starling(Level1, stage);
-			mStarling.antiAliasing = 2;
+			mStarling.antiAliasing = 3;
 			mStarling.start();
 		}
 		
