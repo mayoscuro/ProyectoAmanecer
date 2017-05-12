@@ -18,10 +18,10 @@ package
 		[Embed(source = "../media/images/base_cañon.png")]
 		public static const base_canon:Class;
 		
-		/*[Embed(source = "../media/Fondos/Instruciones.png")]
-		public static const instruciones:Class;
+		[Embed(source = "../media/images/disparo.png")]
+		public static const disparo:Class;
 		
-		[Embed(source = "../media/Fondos/play.png")]
+		/*[Embed(source = "../media/Fondos/play.png")]
 		public static const play:Class;
 		
 		[Embed(source = "../media/Fondos/instructions.png")]

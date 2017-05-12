@@ -27,7 +27,7 @@ import flash.events.MouseEvent;
 			this.x = x;
 			this.y = y;
 			
-			ball = new Image(Assets.getTexture("base_canon"));
+			ball = new Image(Assets.getTexture("disparo"));
 			ball.height = ball.height /3;
 			ball.width = ball.width /3;
 			addChild(ball);
