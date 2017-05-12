@@ -94,7 +94,7 @@ package
 			spawnBalls();
 			torreta = new Player();
 			torreta.x = (stage.stageWidth - torreta.width)  * 0.45;
-			torreta.y = (stage.stageHeight - torreta.height)  * 0.4;
+			torreta.y = (stage.stageHeight - torreta.height)  * 0.5;
 			bg =  new Image(Assets.getTexture("background"));
 			
 			
@@ -141,8 +141,8 @@ package
 				{
 					mouseX = touch.globalX;
 					mouseY = touch.globalY;
-					torreta.pivotX = torreta.width  *0.5;
-					torreta.pivotY = torreta.height  *0.5;
+					torreta.pivotX = torreta.width * 0.5 ;
+					torreta.pivotY = torreta.height * 0.5 ;
 					
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)

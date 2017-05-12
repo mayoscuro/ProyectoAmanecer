@@ -29,7 +29,7 @@ import flash.events.MouseEvent;
 			_velocityX = velocityX
 			_velocityY = velocityY;
 			
-			ball = new Image(Assets.getTexture("base_canon"));
+			ball = new Image(Assets.getTexture("bola_normal"));
 			ball.height = ball.height / 2;
 			ball.width = ball.width / 2;
 			addChild(ball);

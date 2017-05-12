@@ -21,10 +21,10 @@ package
 		[Embed(source = "../media/images/disparo.png")]
 		public static const disparo:Class;
 		
-		/*[Embed(source = "../media/Fondos/play.png")]
-		public static const play:Class;
+		[Embed(source = "../media/images/bola_normal.png")]
+		public static const bola_normal:Class;
 		
-		[Embed(source = "../media/Fondos/instructions.png")]
+		/*[Embed(source = "../media/Fondos/instructions.png")]
 		public static const instructions:Class;
 		
 		[Embed(source = "../media/Fondos/seleccion.png")]
