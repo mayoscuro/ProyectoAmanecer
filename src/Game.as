@@ -12,6 +12,7 @@ package
 		private var mainMenu:MainMenu;
 		private var screenInGame:Level1;
 		private var settingsScreen:Settings;
+		private var creditsScreen:Credits;
 		
 		public function Game() 
 		{
@@ -31,6 +32,9 @@ package
 			settingsScreen = new Settings();
 			settingsScreen.disposeTemporarily();
 			addChild(settingsScreen);
+			creditsScreen = new Credits();
+			creditsScreen.disposeTemporarily();
+			addChild(creditsScreen);
 			mainMenu = new MainMenu();
 			addChild(mainMenu);
 			mainMenu.initialize();
@@ -45,6 +49,8 @@ package
 					break;
 				case "credits":
 					//Poner una clase con el titulo creditos y poner en texto los nombres (tampoco matarse mucho).
+					mainMenu.ocultar();
+					creditsScreen.initialize();
 					break;
 				case "options":
 					//Poner una pantalla de opciones
@@ -57,6 +63,10 @@ package
 				case "exitSettings":
 					mainMenu.initialize();
 					settingsScreen.disposeTemporarily();
+					break;
+				case "exitCredits":
+					mainMenu.initialize();
+					creditsScreen.disposeTemporarily();
 					break;
 			}
 			
