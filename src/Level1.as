@@ -6,6 +6,7 @@ package
 	import starling.display.Image;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
+	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
@@ -15,6 +16,7 @@ package
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+
 	
 	/**
 	 * ...
@@ -49,6 +51,36 @@ package
 		
 		//Acabar nivel:
 		private var fin:Boolean = false;
+		
+		//NivelOculto:
+		private var oculto:Boolean = false;
+		
+		public function disposeTemporarily():void{
+			this.visible = false;
+			oculto = true;
+			if (this.hasEventListener(Event.ENTER_FRAME)) this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+			//removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
+		}
+		
+		private function hideSpawnBalls():void{
+			for each (var pelota in enemigos){
+				pelota.visible = false;
+			}
+		}
+		
+		private function showSpawnBalls():void{
+			for each (var pelota in enemigos){
+				pelota.visible = true;
+			}
+		}
+		
+		public function initialize():void{
+			this.visible = true;
+			oculto = false;
+			showSpawnBalls();
+			//addEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
+			//addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
 		
 		
 		//Esto es para poner los limites del mapa y que las pelotas no se salgan y reboten y tal:
@@ -90,11 +122,13 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
 			setBoundries();
-			
 			spawnBalls();
+			hideSpawnBalls();
 			torreta = new Player();
 			torreta.x = (stage.stageWidth - torreta.width)  * 0.45;
 			torreta.y = (stage.stageHeight - torreta.height)  * 0.5;
+			torreta.pivotX = torreta.width / 2;
+			torreta.pivotY = torreta.height / 2;
 			bg =  new Image(Assets.getTexture("background"));
 			
 			
@@ -169,18 +203,19 @@ package
 		{
 			frames ++;
 			//20 FRAMES UN SEGUNDO;
-			if (frames == 20){
+			if (frames == 20 && oculto == false){
 				segundos = 1;
 				frames = 0;
 			}else{
 				segundos = 0;
 			}
-			if(!fin){
+			if (!fin && oculto == false ){
 				score-= segundos;
 				trace(score);
 			}
 			for each(var pelota in enemigos){
 				ballMovement(pelota);
+				ballCollision(pelota);
 			}
 			
 			if(enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
@@ -188,6 +223,21 @@ package
 				fin = true;
 			}
 			
+		}
+		
+		public function ballCollision(pelota:Ball){
+			
+			for each (var otherBall in enemigos){
+				if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
+					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.
+						
+						otherBall.velocityX =  -otherBall.velocityX;
+						otherBall.velocityY= -otherBall.velocityY;
+						pelota.velocityX= -pelota.velocityX;
+						pelota.velocityY = - pelota.velocityY;
+					
+					}
+			}
 		}
 		
 		public function getDegrees(radians:Number):Number

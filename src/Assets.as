@@ -23,6 +23,27 @@ package
 		
 		[Embed(source = "../media/images/bola_normal.png")]
 		public static const bola_normal:Class;
+		//
+		[Embed(source = "../media/images/play.png")]
+		public static const play:Class;
+		
+		[Embed(source = "../media/images/credits.png")]
+		public static const credits:Class;
+		
+		[Embed(source = "../media/images/options.png")]
+		public static const options:Class;
+		
+		[Embed(source = "../media/images/title.png")]
+		public static const title:Class;
+		
+		[Embed(source = "../media/images/exit.png")]
+		public static const exit:Class;
+		
+		[Embed(source = "../media/images/backgroundMenu.png")]
+		public static const backgroudMenu:Class;
+		
+		//[Embed(source = "../media/images/bola_normal.png")]
+		//public static const bola_normal:Class;
 		
 		/*[Embed(source = "../media/Fondos/instructions.png")]
 		public static const instructions:Class;
