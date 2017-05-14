@@ -11,6 +11,7 @@ package
 	{
 		private var mainMenu:MainMenu;
 		private var screenInGame:Level1;
+		private var settingsScreen:Settings;
 		
 		public function Game() 
 		{
@@ -27,6 +28,9 @@ package
 			screenInGame = new Level1();
 			screenInGame.disposeTemporarily();
 			this.addChild(screenInGame);
+			settingsScreen = new Settings();
+			settingsScreen.disposeTemporarily();
+			addChild(settingsScreen);
 			mainMenu = new MainMenu();
 			addChild(mainMenu);
 			mainMenu.initialize();
@@ -40,15 +44,20 @@ package
 					screenInGame.initialize();
 					break;
 				case "credits":
-					
+					//Poner una clase con el titulo creditos y poner en texto los nombres (tampoco matarse mucho).
 					break;
 				case "options":
-					
+					//Poner una pantalla de opciones
+					mainMenu.ocultar();
+					settingsScreen.initialize();
 					break;
 				case "exit":
 					fscommand("quit");
 					break;
-				
+				case "exitSettings":
+					mainMenu.initialize();
+					settingsScreen.disposeTemporarily();
+					break;
 			}
 			
 		}

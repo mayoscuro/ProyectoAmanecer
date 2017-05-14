@@ -42,8 +42,14 @@ package
 		[Embed(source = "../media/images/backgroundMenu.png")]
 		public static const backgroudMenu:Class;
 		
-		//[Embed(source = "../media/images/bola_normal.png")]
-		//public static const bola_normal:Class;
+		[Embed(source = "../media/images/OPTIONS_title.png")]
+		public static const OPTIONS_title:Class;
+		
+		[Embed(source = "../media/images/soundOn.png")]
+		public static const soundOn:Class;
+		
+		[Embed(source = "../media/images/soundOff.png")]
+		public static const soundOff:Class;
 		
 		/*[Embed(source = "../media/Fondos/instructions.png")]
 		public static const instructions:Class;
