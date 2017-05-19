@@ -1,4 +1,4 @@
-package 
+package Menus 
 {
 	import starling.display.Image;
 	import starling.display.Button;
@@ -26,8 +26,8 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE,drawScreen);
 			bg = new Image(Assets.getTexture("backgroudMenu"));
 			settingsTitle = new Image(Assets.getTexture("OPTIONS_title"));
-			texto = new TextField(500,100,"");
-			backButton = new Button(Assets.getTexture("soundOff"));//Imagen provisional.
+			texto = new TextField(530,200,"");
+			backButton = new Button(Assets.getTexture("back"));//Imagen provisional.
 			
 			addChild(bg);
 			addChild(settingsTitle);
@@ -39,6 +39,8 @@ package
 			texto.bold = true;
 			
 			backButton.name = "backButton";
+			backButton.width = backButton.width / 2.2;
+			backButton.height = backButton.height / 2.2;
 			
 			settingsTitle.pivotX = settingsTitle.width / 2;
 			settingsTitle.x = (stage.stageWidth * .5 - settingsTitle.width * .5) * 2;

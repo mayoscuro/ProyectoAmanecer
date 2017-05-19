@@ -51,19 +51,25 @@ package
 		[Embed(source = "../media/images/soundOff.png")]
 		public static const soundOff:Class;
 		
-		/*[Embed(source = "../media/Fondos/instructions.png")]
-		public static const instructions:Class;
+		[Embed(source = "../media/images/back.png")]
+		public static const back:Class;
 		
-		[Embed(source = "../media/Fondos/seleccion.png")]
-		public static const seleccion:Class;
+		[Embed(source = "../media/images/level_1.png")]
+		public static const level_1:Class;
 		
-		[Embed(source = "../media/Fondos/Game Over.png")]
-		public static const lose:Class;
+		[Embed(source = "../media/images/level_2.png")]
+		public static const level_2:Class;
 		
-		[Embed(source = "../media/Fondos/Welcome.png")]
-		public static const welcome:Class;
+		[Embed(source = "../media/images/level_3.png")]
+		public static const level_3:Class;
 		
-		[Embed(source = "../media/Fondos/vortex.png")]
+		[Embed(source = "../media/images/backgroundLevel.png")]
+		public static const backgroundLevel:Class;
+		
+		[Embed(source = "../media/images/levels_title.png")]
+		public static const levels_title:Class;
+		
+		/*[Embed(source = "../media/Fondos/vortex.png")]
 		public static const vortex:Class;
 		
 		[Embed(source = "../media/Fondos/espacio.png")]

@@ -1,4 +1,4 @@
-package 
+package Menus 
 {
 	import starling.display.Image;
 	import starling.display.Button;
@@ -28,7 +28,7 @@ package
 			settingsTitle = new Image(Assets.getTexture("OPTIONS_title"));
 			soundButtonOn = new Button(Assets.getTexture("soundOn"));
 			soundButtonOff = new Button(Assets.getTexture("soundOff"));
-			backButton = new Button(Assets.getTexture("soundOff"));//Imagen provisional.
+			backButton = new Button(Assets.getTexture("back"));//Imagen provisional.
 			
 			addChild(bg);
 			addChild(settingsTitle);
@@ -37,6 +37,8 @@ package
 			addChild(backButton);
 			
 			backButton.name = "backButton";
+			backButton.width = backButton.width / 2.2;
+			backButton.height = backButton.height / 2.2;
 			
 			soundButtonOff.visible = false;
 			

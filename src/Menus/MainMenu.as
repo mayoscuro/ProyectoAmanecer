@@ -1,4 +1,4 @@
-package 
+package Menus 
 {
 	import starling.display.Sprite;
 	import starling.display.Button;

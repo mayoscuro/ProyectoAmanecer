@@ -3,6 +3,10 @@ package
 	import Level1.Level1;
 	import Level2.Level2;
 	import Level3.Level3;
+	import Menus.Credits;
+	import Menus.LevelSelection;
+	import Menus.MainMenu;
+	import Menus.Settings;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import flash.system.fscommand;
@@ -12,13 +16,13 @@ package
 	 */
 	public class Game extends Sprite
 	{
-		private var mainMenu:MainMenu;
-		private var levelSelection:LevelSelection;
+		private var mainMenu:Menus.MainMenu;
+		private var levelSelection:Menus.LevelSelection;
 		private var screenInGame:Level1;
 		private var screenInGame2:Level2;
 		private var screenInGame3:Level3;
-		private var settingsScreen:Settings;
-		private var creditsScreen:Credits;
+		private var settingsScreen:Menus.Settings;
+		private var creditsScreen:Menus.Credits;
 		
 		public function Game() 
 		{
@@ -33,7 +37,7 @@ package
 			
 			this.addEventListener(NavigationEvent.CHANGE_SCREEN, onChangeScreen);
 			
-			levelSelection = new LevelSelection();
+			levelSelection = new Menus.LevelSelection();
 			levelSelection.disposeTemporarily();
 			this.addChild(levelSelection);
 			
@@ -49,15 +53,15 @@ package
 			screenInGame3.disposeTemporarily();
 			this.addChild(screenInGame3);
 			
-			settingsScreen = new Settings();
+			settingsScreen = new Menus.Settings();
 			settingsScreen.disposeTemporarily();
 			addChild(settingsScreen);
 			
-			creditsScreen = new Credits();
+			creditsScreen = new Menus.Credits();
 			creditsScreen.disposeTemporarily();
 			addChild(creditsScreen);
 			
-			mainMenu = new MainMenu();
+			mainMenu = new Menus.MainMenu();
 			addChild(mainMenu);
 			mainMenu.initialize();
 			
@@ -69,6 +73,10 @@ package
 				case "play":
 					mainMenu.ocultar();
 					levelSelection.initialize();
+					break;
+				case "exitLevelSelection":
+					mainMenu.initialize();
+					levelSelection.disposeTemporarily();
 					break;
 				case "playLevel1":
 					mainMenu.ocultar();
@@ -103,6 +111,7 @@ package
 					mainMenu.initialize();
 					creditsScreen.disposeTemporarily();
 					break;
+					
 			}
 			
 		}
