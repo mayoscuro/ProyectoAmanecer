@@ -1,5 +1,8 @@
 package Level1 
 {
+	
+	import Sound.GlobalSound;
+	import Menus.Settings;
 	import flash.display.Bitmap;
 	import starling.display.DisplayObjectContainer;
 	import starling.core.Starling;
@@ -56,6 +59,7 @@ package Level1
 		private var oculto:Boolean = false;
 		
 		public function disposeTemporarily():void{
+			GlobalSound.playStopTemita(false);
 			this.visible = false;
 			oculto = true;
 			if (this.hasEventListener(Event.ENTER_FRAME)) this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -75,11 +79,16 @@ package Level1
 		}
 		
 		public function initialize():void{
+			GlobalSound.playStopTemita(true);
 			this.visible = true;
 			oculto = false;
 			showSpawnBalls();
-			//addEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
-			//addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+		public function initializeWithoutSound():void{
+			GlobalSound.playStopTemita(false);
+			this.visible = true;
+			oculto = false;
+			showSpawnBalls();
 		}
 		
 		
@@ -134,7 +143,6 @@ package Level1
 			
 			addChild(bg);
 			addChild(torreta);
-			
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
@@ -220,6 +228,7 @@ package Level1
 			
 			if(enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
 				trace("Ya has ganado xD");
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "NivelCompletado"}, true));
 				fin = true;
 			}
 			

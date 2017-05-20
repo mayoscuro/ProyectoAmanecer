@@ -1,5 +1,6 @@
 package Menus 
 {
+	import Sound.GlobalSound;
 	import starling.display.Image;
 	import starling.display.Button;
 	import starling.display.Sprite;
@@ -66,9 +67,11 @@ package Menus
 			if (button.name == "soundButtonOn") {
 				soundButtonOn.visible = false;
 				soundButtonOff.visible = true;
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SOUND, {id: "soundOff"}, true));
 			}else if(button.name == "soundButtonOff"){
 				soundButtonOn.visible = true;
 				soundButtonOff.visible = false;
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SOUND, {id: "soundOn"}, true)); 
 			}else if(button.name == "backButton"){
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "exitSettings"}, true));
 			}

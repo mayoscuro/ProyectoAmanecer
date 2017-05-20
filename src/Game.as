@@ -23,6 +23,7 @@ package
 		private var screenInGame3:Level3;
 		private var settingsScreen:Menus.Settings;
 		private var creditsScreen:Menus.Credits;
+		private var sonidoActivo:Boolean = true;
 		
 		public function Game() 
 		{
@@ -36,6 +37,7 @@ package
 			trace("Soooooooooo");
 			
 			this.addEventListener(NavigationEvent.CHANGE_SCREEN, onChangeScreen);
+			this.addEventListener(NavigationEvent.CHANGE_SOUND, onChangeSound);
 			
 			levelSelection = new Menus.LevelSelection();
 			levelSelection.disposeTemporarily();
@@ -67,9 +69,21 @@ package
 			
 		}
 		
+		private function onChangeSound(event:NavigationEvent):void{
+			switch(event.params.id){
+				case "soundOff":
+					sonidoActivo = false;
+					break;
+				case "soundOn":
+					sonidoActivo = true;
+					break;
+			}
+		}
+		
 		private function onChangeScreen(event:NavigationEvent):void{
 			
 			switch(event.params.id){
+				
 				case "play":
 					mainMenu.ocultar();
 					levelSelection.initialize();
@@ -80,7 +94,12 @@ package
 					break;
 				case "playLevel1":
 					mainMenu.ocultar();
-					screenInGame.initialize();
+					trace(sonidoActivo);
+					if(sonidoActivo){
+						screenInGame.initialize();
+					}else{
+						screenInGame.initializeWithoutSound();
+					}
 					break;
 				case "playLevel2":
 					mainMenu.ocultar();
@@ -111,7 +130,9 @@ package
 					mainMenu.initialize();
 					creditsScreen.disposeTemporarily();
 					break;
+				case "nivelCompletado":
 					
+					break;
 			}
 			
 		}
