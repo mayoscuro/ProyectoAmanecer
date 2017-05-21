@@ -21,9 +21,6 @@ import flash.events.MouseEvent;
 		private var player:MovieClip;
 		private var canon:Image;
 		private var base_canon:Image;
-		private var _rotateSpeedMax:Number = 15;
-		
-		private var _trueRotation:Number = 0;
 		
 		
 		public function Player()

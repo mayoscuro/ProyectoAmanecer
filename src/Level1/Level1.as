@@ -136,8 +136,8 @@ package Level1
 			torreta = new Player();
 			torreta.x = (stage.stageWidth - torreta.width)  * 0.45;
 			torreta.y = (stage.stageHeight - torreta.height)  * 0.5;
-			torreta.pivotX = torreta.width / 2;
-			torreta.pivotY = torreta.height / 2;
+			torreta.pivotX = torreta.width/2;
+			torreta.pivotY = torreta.height/2;
 			bg =  new Image(Assets.getTexture("background"));
 			
 			
@@ -183,8 +183,8 @@ package Level1
 				{
 					mouseX = touch.globalX;
 					mouseY = touch.globalY;
-					torreta.pivotX = torreta.width * 0.5 ;
-					torreta.pivotY = torreta.height * 0.5 ;
+					//torreta.pivotX = torreta.width * 0.5 ;
+					//torreta.pivotY = torreta.height * 0.5 ;
 					
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
@@ -201,8 +201,8 @@ package Level1
 		
 		private function enterFrameTorreta(e:Event):void{
 			var angleRadian=Math.atan2(mouseY-torreta.y,mouseX-torreta.x);
-			var angleDegree = angleRadian * 180 / Math.PI;
-			torreta.rotation = angleDegree;
+			//var angleDegree = angleRadian * 180 / Math.PI;
+			torreta.rotation = angleRadian;
 			//trace( Math.round(angleDegree) + "°");
 		}
 		
