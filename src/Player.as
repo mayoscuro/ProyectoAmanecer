@@ -33,8 +33,13 @@ import flash.events.MouseEvent;
 		{
 
 			base_canon = new Image(Assets.getTexture("base_canon"));
+			base_canon.pivotX = base_canon.width / 2;
+			base_canon.pivotY = base_canon.height / 2;
 			addChild(base_canon);
 			canon = new Image(Assets.getTexture("canon"));
+			canon.pivotX = canon.width / 2;
+			canon.pivotY = canon.height / 2;
+			canon.rotation = 3.14;//Para que empeice de cara.
 			addChild(canon);
 			
 		}
