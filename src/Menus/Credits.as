@@ -35,8 +35,8 @@ package Menus
 			addChild(texto);
 
 			texto.text = "This game was developed by: Jesús Mayoral Itarte and David Caceres Frias";
-			texto.fontSize = 30;
-			texto.bold = true;
+			//texto.fontSize = 30;
+			//texto.bold = true;
 			
 			backButton.name = "backButton";
 			backButton.width = backButton.width / 2.2;
