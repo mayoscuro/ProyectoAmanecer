@@ -17,8 +17,8 @@ import flash.events.MouseEvent;
 	public class PlayerBall extends Sprite
 	{
 		
-		private var _velocityX:Number = 5;
-		private var _velocityY:Number = 5;
+		private var _velocityX:Number = 7;
+		private var _velocityY:Number = 7;
 		private var ball:Image;
 		public var angleRadian:Number;
 		

@@ -4,6 +4,7 @@ package Level1
 	import Sound.GlobalSound;
 	import Menus.Settings;
 	import flash.display.Bitmap;
+	import starling.text.TextField;
 	import starling.display.DisplayObjectContainer;
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -19,6 +20,7 @@ package Level1
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	
 
 	
 	/**
@@ -28,6 +30,10 @@ package Level1
 
 	public class Level1 extends Sprite
 	{
+		
+		//Textos:
+		private var scoreText:TextField;
+		
 	
 		private var bg:Image;
 		private var torreta:Player;
@@ -58,8 +64,12 @@ package Level1
 		//NivelOculto:
 		private var oculto:Boolean = false;
 		
+		//Silenciar:
+		private var silencio:Boolean = false;
+		
 		public function disposeTemporarily():void{
 			GlobalSound.playStopTemita(false);
+			silencio = true;
 			this.visible = false;
 			oculto = true;
 			if (this.hasEventListener(Event.ENTER_FRAME)) this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -80,12 +90,14 @@ package Level1
 		
 		public function initialize():void{
 			GlobalSound.playStopTemita(true);
+			silencio = false;
 			this.visible = true;
 			oculto = false;
 			showSpawnBalls();
 		}
 		public function initializeWithoutSound():void{
 			GlobalSound.playStopTemita(false);
+			silencio = true;
 			this.visible = true;
 			oculto = false;
 			showSpawnBalls();
@@ -140,9 +152,15 @@ package Level1
 			torreta.pivotY = torreta.height/2;
 			bg =  new Image(Assets.getTexture("background"));
 			
+			scoreText = new TextField(200,200,"");
+			scoreText.x = stage.width - stage.width / 1.1;
+			
+			
+			
 			
 			addChild(bg);
 			addChild(torreta);
+			addChild(scoreText);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
@@ -167,11 +185,15 @@ package Level1
 					b.x < pelota.x + pelota.width / 2 &&
 					b.y > pelota.y - pelota.height / 2 && 
 					b.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
+						if(!silencio){//Cuando el sonido este activo
+							GlobalSound.playStopExplosion(true);
+						}
 						score += pelota.getScore();
 						//trace(score);
 						enemigos.removeAt(enemigos.indexOf(pelota));
 						pelota.removeBall();
 						removeChild(pelota);
+					
 				}
 			}
 		}
@@ -188,6 +210,9 @@ package Level1
 					
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
+					if(!silencio){
+						GlobalSound.playStopPiumPium(true);
+					}
 					var b = new PlayerBall(torreta.x,torreta.y);
 					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
 					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
@@ -209,14 +234,18 @@ package Level1
 		
 		private function onEnterFrame(e:Event):void 
 		{
+			scoreText.text = "" + score;
 			frames ++;
 			//20 FRAMES UN SEGUNDO;
-			if (frames == 20 && oculto == false){
+			trace(frames);
+			if (frames >= 20 && oculto == false){
 				segundos = 1;
 				frames = 0;
 			}else{
 				segundos = 0;
 			}
+			trace(fin);
+			trace(oculto);
 			if (!fin && oculto == false ){
 				score-= segundos;
 				trace(score);

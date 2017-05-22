@@ -37,7 +37,7 @@ package Sound
 			var myChannel:SoundChannel = new SoundChannel();
 			myTrack.load(new URLRequest("../media/sounds/temita.mp3")); // make sure you use the proper path!
 			
-			if ( play){
+			if (play){
 				myChannel = myTrack.play();
 			}else{
 				myChannel.stop();
