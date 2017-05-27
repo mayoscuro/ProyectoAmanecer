@@ -227,10 +227,11 @@ package Level2
 			} 
 			
 			for each (var pelota in enemigos){
-				if(bullet.x > pelota.x - pelota.width / 2 && 
+				/*if(bullet.x > pelota.x - pelota.width / 2 && 
 					bullet.x < pelota.x + pelota.width / 2 &&
 					bullet.y > pelota.y - pelota.height / 2 && 
-					bullet.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
+					bullet.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.*/
+				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){
 						if(!silencio){//Cuando el sonido este activo
 							GlobalSound.playStopExplosion(true);
 						}
@@ -334,9 +335,9 @@ package Level2
 		public function ballCollision(pelota:Ball){
 			
 			for each (var otherBall in enemigos){
-				if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
-					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.
-						
+				/*if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
+					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.*/
+				if(otherBall.getBounds(otherBall.parent).intersects(pelota.getBounds(pelota.parent))){		
 						otherBall.velocityX =  -otherBall.velocityX;
 						otherBall.velocityY= -otherBall.velocityY;
 						pelota.velocityX= -pelota.velocityX;

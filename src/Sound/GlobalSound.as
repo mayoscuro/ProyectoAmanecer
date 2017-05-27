@@ -40,7 +40,8 @@ package Sound
 			if (play){
 				myChannel = myTrack.play();
 			}else{
-				myChannel.stop();
+				myChannel.stop()
+				
 			}
 		}
 		
