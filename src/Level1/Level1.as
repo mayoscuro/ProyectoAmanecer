@@ -20,6 +20,7 @@ package Level1
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import starling.display.Button;
 	
 
 	
@@ -33,6 +34,11 @@ package Level1
 		
 		//Textos:
 		private var scoreText:TextField;
+		private var feedBackText:TextField;
+		private var levelfinalScoreText:TextField;
+		private var totalFinalScoreText:TextField;
+		private var buttonNewLevel:Button;
+		private var levelCompleteText:TextField;
 		
 	
 		private var bg:Image;
@@ -145,22 +151,28 @@ package Level1
 			setBoundries();
 			spawnBalls();
 			hideSpawnBalls();
+			
 			torreta = new Player();
-			torreta.x = (stage.stageWidth - torreta.width)  * 0.45;
-			torreta.y = (stage.stageHeight - torreta.height)  * 0.5;
 			torreta.pivotX = torreta.width/2;
 			torreta.pivotY = torreta.height/2;
+			torreta.x = (stage.stageWidth * .5 - torreta.width * .5);
+			torreta.y = (stage.stageHeight * .5 - torreta.height * .5);
+			
 			bg =  new Image(Assets.getTexture("background"));
 			
-			scoreText = new TextField(200,200,"");
-			scoreText.x = stage.width - stage.width / 1.1;
 			
 			
+			InitializeText();
 			
 			
 			addChild(bg);
 			addChild(torreta);
 			addChild(scoreText);
+			addChild(feedBackText);
+			addChild(levelfinalScoreText);
+			addChild(totalFinalScoreText);
+			addChild(buttonNewLevel);
+			addChild(levelCompleteText);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
@@ -169,22 +181,56 @@ package Level1
 			
 		}
 		
+		private function InitializeText(){
+			
+			scoreText = new TextField(90,20,"Score: ");
+			scoreText.x = (stage.stageWidth - scoreText.width) * 0.001;
+			scoreText.y = (stage.y + scoreText.height);
+			
+			feedBackText = new TextField(250, 100, "");
+			feedBackText.x = (stage.stageWidth * .5 - feedBackText.width * .5);
+			feedBackText.y = (stage.stageHeight - scoreText.height - torreta.y + (torreta.height / 2)) / 2;
+			
+			levelfinalScoreText =  new TextField(100,60,"");
+			levelfinalScoreText.x = (stage.stageWidth * .5 - levelfinalScoreText.width * .5) - levelfinalScoreText.width * 2;
+			levelfinalScoreText.y = (stage.stageHeight - levelfinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.8;
+			
+			totalFinalScoreText =  new TextField(100,60,"");
+			totalFinalScoreText.x = (stage.stageWidth * .5 - totalFinalScoreText.width * .5) + totalFinalScoreText.width * 2;
+			totalFinalScoreText.y = (stage.stageHeight - totalFinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.8;
+			
+			buttonNewLevel = new Button(Assets.getTexture("next_level"));
+			buttonNewLevel.y = torreta.y * 1.2;
+			buttonNewLevel.pivotX = buttonNewLevel.width / 2;
+			buttonNewLevel.x = (stage.stageWidth * .5 - torreta.width * .5); 
+			buttonNewLevel.visible = false;
+			buttonNewLevel.name = "NextLevel";
+			addEventListener(Event.TRIGGERED, onButtonTriggered);
+			
+			levelCompleteText = new TextField(250, 100, "LEVEL COMPLETE!");
+			levelCompleteText.x = (stage.stageWidth * .5 - levelCompleteText.width * .5);
+			levelCompleteText.y = (stage.y + levelCompleteText.height);
+			levelCompleteText.visible = false;
+			
+		}
+		
+		
 		
 		function bulletEnterFrame(e:Event) {
-			var b = e.currentTarget;
-			b.x +=  Math.cos(b.getAngleRadian) * b.velocityX;
-			b.y +=  Math.sin(b.getAngleRadian) * b.velocityY;
-			b.rotation = b.getAngleRadian * 180 / Math.PI;
-			if (b.x < 0 || b.x > 1000 || b.y < 0 || b.y > 700) {//Si se sale del mapa elimina la bola(del jugador).
-				removeChild(b);
-				b.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
+			var bullet = e.currentTarget;
+			bullet.x +=  Math.cos(bullet.getAngleRadian) * bullet.velocityX;
+			bullet.y +=  Math.sin(bullet.getAngleRadian) * bullet.velocityY;
+			bullet.rotation = bullet.getAngleRadian * 180 / Math.PI;
+			if (bullet.x < 0 || bullet.x > 1000 || bullet.y < 0 || bullet.y > 700) {//Si se sale del mapa elimina la bola(del jugador).
+				removeChild(bullet);
+				bullet.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
 			} 
 			
 			for each (var pelota in enemigos){
-				if(b.x > pelota.x - pelota.width / 2 && 
-					b.x < pelota.x + pelota.width / 2 &&
-					b.y > pelota.y - pelota.height / 2 && 
-					b.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
+				if(bullet.x > pelota.x - pelota.width / 2 && 
+					bullet.x < pelota.x + pelota.width / 2 &&
+					bullet.y > pelota.y - pelota.height / 2 && 
+					bullet.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.
 						if(!silencio){//Cuando el sonido este activo
 							GlobalSound.playStopExplosion(true);
 						}
@@ -234,7 +280,7 @@ package Level1
 		
 		private function onEnterFrame(e:Event):void 
 		{
-			scoreText.text = "" + score;
+			scoreText.text = "Score: " + score;
 			frames ++;
 			//20 FRAMES UN SEGUNDO;
 			trace(frames);
@@ -244,11 +290,11 @@ package Level1
 			}else{
 				segundos = 0;
 			}
-			trace(fin);
-			trace(oculto);
+			//trace(fin);
+			//trace(oculto);
 			if (!fin && oculto == false ){
 				score-= segundos;
-				trace(score);
+				//trace(score);
 			}
 			for each(var pelota in enemigos){
 				ballMovement(pelota);
@@ -257,10 +303,32 @@ package Level1
 			
 			if(enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
 				trace("Ya has ganado xD");
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "NivelCompletado"}, true));
+				//this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "NivelCompletado"}, true));
+				levelfinalScoreText.text  = "Level Score: \n" + score;
+				GlobalScore.totalScore += score;
+				if(score > 1000){
+					feedBackText.text = "Perfecto, has hecho una buena puntuación, pero aun así eres tonto";
+				}else if(score <= 1000 && score > 900){
+					feedBackText.text = "Aun eres un pedazo de manco impresionante, pero no esta todo perdido";
+				}else if(score <900){
+					feedBackText.text = "Mira tio, eres mas malo que pegar a un pare con un calcetin usado, jubilate ya, o juega al parchis";
+				}
+				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
+				buttonNewLevel.visible = true;
+				levelCompleteText.visible = true;
+				GlobalSound.playStopTemita(false);
 				fin = true;
 			}
 			
+		}
+		
+		public function onButtonTriggered(e:Event):void{
+			
+			var button:Button = e.target as Button;
+			if (button.name == "NextLevel") {
+				trace("Dentro");
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
+			}
 		}
 		
 		public function ballCollision(pelota:Ball){

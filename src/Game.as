@@ -24,6 +24,7 @@ package
 		private var settingsScreen:Menus.Settings;
 		private var creditsScreen:Menus.Credits;
 		private var sonidoActivo:Boolean = true;
+		private var level:int = 0;
 		
 		public function Game() 
 		{
@@ -42,14 +43,6 @@ package
 			levelSelection = new Menus.LevelSelection();
 			levelSelection.disposeTemporarily();
 			this.addChild(levelSelection);
-			
-			screenInGame = new Level1();
-			screenInGame.disposeTemporarily();
-			this.addChild(screenInGame);
-			
-			screenInGame2 = new Level2();
-			screenInGame2.disposeTemporarily();
-			this.addChild(screenInGame2);
 			
 			screenInGame3 = new Level3();
 			screenInGame3.disposeTemporarily();
@@ -93,7 +86,12 @@ package
 					levelSelection.disposeTemporarily();
 					break;
 				case "playLevel1":
+					screenInGame = new Level1();
+					screenInGame.disposeTemporarily();
+					this.addChild(screenInGame);
+					
 					mainMenu.ocultar();
+					level = 1;
 					trace(sonidoActivo);
 					if(sonidoActivo){
 						screenInGame.initialize();
@@ -102,11 +100,16 @@ package
 					}
 					break;
 				case "playLevel2":
+					screenInGame2 = new Level2();
+					screenInGame2.disposeTemporarily();
+					this.addChild(screenInGame2);
+					
 					mainMenu.ocultar();
 					screenInGame2.initialize();
 					break;
 				case "playLevel3":
 					mainMenu.ocultar();
+					level = 2;
 					screenInGame3.initialize();
 					break;
 				case "credits":
@@ -130,8 +133,20 @@ package
 					mainMenu.initialize();
 					creditsScreen.disposeTemporarily();
 					break;
-				case "nivelCompletado":
-					
+				case "levelComplete":
+					if (level == 1){
+						removeChild(screenInGame);
+						
+						screenInGame2 = new Level2();
+						screenInGame2.disposeTemporarily();
+						this.addChild(screenInGame2);
+						screenInGame2.initialize();
+						level = 2;
+					}else if(level == 2){//Esto es de prueba por ahora.
+						removeChild(screenInGame2);
+						mainMenu.initialize();
+						level = 0;
+					}
 					break;
 			}
 			

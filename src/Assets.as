@@ -69,10 +69,10 @@ package
 		[Embed(source = "../media/images/levels_title.png")]
 		public static const levels_title:Class;
 		
-		/*[Embed(source = "../media/Fondos/vortex.png")]
-		public static const vortex:Class;
+		[Embed(source = "../media/images/next_level.png")]
+		public static const next_level:Class;
 		
-		[Embed(source = "../media/Fondos/espacio.png")]
+		/*[Embed(source = "../media/Fondos/espacio.png")]
 		public static const space:Class;
 		
 		[Embed(source = "../media/Fondos/espacio 2.png")]
