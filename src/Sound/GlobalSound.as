@@ -9,38 +9,47 @@ package Sound
 	 */
 	public class GlobalSound 
 	{	
-		public static function playStopExplosion(play:Boolean) 
-		{
-			var myTrack:Sound = new Sound();
-			var myChannel:SoundChannel = new SoundChannel();
-			myTrack.load(new URLRequest("../media/sounds/explosion.mp3")); // make sure you use the proper path!
-			if(play){
-				myChannel = myTrack.play();
-			}else{
-				myChannel.stop();
-			}
-		}
+		var myTrackTemita:Sound = new Sound();
+		var myChannelTemita:SoundChannel = new SoundChannel();
 		
-		public static function playStopPiumPium(play:Boolean){
-			var myTrack:Sound = new Sound();
-			var myChannel:SoundChannel = new SoundChannel();
-			myTrack.load(new URLRequest("../media/sounds/piumpium.mp3")); // make sure you use the proper path!
-			if(play){
-				myChannel = myTrack.play();
-			}else{
-				myChannel.stop();
-			}
-		}
+		var myTrackExplosion:Sound = new Sound();
+		var myChannelExplosion:SoundChannel = new SoundChannel();
 		
-		public static function playStopTemita(play:Boolean){
-			var myTrack:Sound = new Sound();
-			var myChannel:SoundChannel = new SoundChannel();
-			myTrack.load(new URLRequest("../media/sounds/temita.mp3")); // make sure you use the proper path!
+		var myTrackPium:Sound = new Sound();
+		var myChannelPium:SoundChannel = new SoundChannel();
+		
+		public function GlobalSound(){
 			
-			if (play){
-				myChannel = myTrack.play();
+			myTrackTemita.load(new URLRequest("../media/sounds/temita.mp3")); // make sure you use the proper path!
+
+			myTrackPium.load(new URLRequest("../media/sounds/piumpium.mp3")); // make sure you use the proper path!
+			myTrackExplosion.load(new URLRequest("../media/sounds/explosion.mp3")); // make sure you use the proper path!
+		}
+		
+		public function playStopExplosion(play:Boolean) 
+		{
+			
+			if(play){
+				myChannelExplosion = myTrackExplosion.play();
 			}else{
-				myChannel.stop()
+				myChannelExplosion.stop();
+			}
+		}
+		
+		public function playStopPiumPium(play:Boolean){
+			
+			if(play){
+				myChannelPium = myTrackPium.play();
+			}else{
+				myChannelPium.stop();
+			}
+		}
+		
+		public function playStopTemita(play:Boolean){
+			if (play){
+				myChannelTemita = myTrackTemita.play();
+			}else{
+				myChannelTemita.stop()
 				
 			}
 		}

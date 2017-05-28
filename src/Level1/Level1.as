@@ -1,6 +1,10 @@
 package Level1 
 {
 	
+	import GameObjects.Ball;
+	import GameObjects.Player;
+	import GameObjects.PlayerBall;
+	import Navigation.NavigationEvent;
 	import Sound.GlobalSound;
 	import Menus.Settings;
 	import flash.display.Bitmap;
@@ -43,8 +47,8 @@ package Level1
 		
 	
 		private var bg:Image;
-		private var torreta:Player;
-		private var ball:Ball;
+		private var torreta:GameObjects.Player;
+		private var ball:GameObjects.Ball;
 		
 		// boundries
 		private var _minX:int;
@@ -53,7 +57,7 @@ package Level1
 		private var _maxY:int;
 		
 		//Enemy's vector:
-		private var enemigos:Vector.<Ball> = new Vector.<Ball>();
+		private var enemigos:Vector.<GameObjects.Ball> = new Vector.<GameObjects.Ball>();
 		
 		
 		//Mouse position:
@@ -71,11 +75,12 @@ package Level1
 		//NivelOculto:
 		private var oculto:Boolean = false;
 		
-		//Silenciar:
+		//Sonido:
 		private var silencio:Boolean = false;
+		private var sonido:GlobalSound;
 		
 		public function disposeTemporarily():void{
-			GlobalSound.playStopTemita(false);
+			//sonido.playStopTemita(false);
 			silencio = true;
 			this.visible = false;
 			oculto = true;
@@ -96,14 +101,14 @@ package Level1
 		}
 		
 		public function initialize():void{
-			GlobalSound.playStopTemita(true);
+			sonido.playStopTemita(true);
 			silencio = false;
 			this.visible = true;
 			oculto = false;
 			showSpawnBalls();
 		}
 		public function initializeWithoutSound():void{
-			GlobalSound.playStopTemita(false);
+			sonido.playStopTemita(false);
 			silencio = true;
 			this.visible = true;
 			oculto = false;
@@ -132,7 +137,7 @@ package Level1
 				newRandomPositionY = Math.random() * (_maxY- _minY) + _minY;
  
 				//Ball usage: new Ball(x, y, velocity X, velocity Y);
-				ball = new Ball(newRandomPositionX, newRandomPositionY, newRandomVelX, newRandomVelY);
+				ball = new GameObjects.Ball(newRandomPositionX, newRandomPositionY, newRandomVelX, newRandomVelY);
 				enemigos.push(ball);
 				stage.addChild(ball);
 				x = x + 1;
@@ -149,11 +154,12 @@ package Level1
 		private function onAddedtoStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
+			sonido = new GlobalSound();
 			setBoundries();
 			spawnBalls();
 			hideSpawnBalls();
 			
-			torreta = new Player();
+			torreta = new GameObjects.Player();
 			torreta.pivotX = torreta.width/2;
 			torreta.pivotY = torreta.height/2;
 			torreta.x = (stage.stageWidth * .5 - torreta.width * .5);
@@ -228,13 +234,9 @@ package Level1
 			} 
 			
 			for each (var pelota in enemigos){
-				/*if(bullet.x > pelota.x - pelota.width / 2 && 
-					bullet.x < pelota.x + pelota.width / 2 &&
-					bullet.y > pelota.y - pelota.height / 2 && 
-					bullet.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.*/
 				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){	
 						if(!silencio){//Cuando el sonido este activo
-							GlobalSound.playStopExplosion(true);
+							sonido.playStopExplosion(true);
 						}
 						score += pelota.getScore();
 						//trace(score);
@@ -259,9 +261,9 @@ package Level1
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
 					if(!silencio){
-						GlobalSound.playStopPiumPium(true);
+						sonido.playStopPiumPium(true);
 					}
-					var b = new PlayerBall(torreta.x,torreta.y);
+					var b = new GameObjects.PlayerBall(torreta.x,torreta.y);
 					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
 					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
 					addChild(b);
@@ -318,7 +320,7 @@ package Level1
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
 				levelCompleteText.visible = true;
-				GlobalSound.playStopTemita(false);
+				sonido.playStopTemita(false);
 				fin = true;
 				
 			}
@@ -332,12 +334,12 @@ package Level1
 			var button:Button = e.target as Button;
 			if (button.name == "NextLevel") {
 				trace("Dentro");
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
 				
 			}
 		}
 		
-		public function ballCollision(pelota:Ball){
+		public function ballCollision(pelota:GameObjects.Ball){
 			for each (var otherBall in enemigos){
 				/*if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
 					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.*/
@@ -356,7 +358,7 @@ package Level1
 			return Math.floor(radians/(Math.PI/180));
 		}
 		
-		private function ballMovement(pelota:Ball):void{
+		private function ballMovement(pelota:GameObjects.Ball):void{
 
 			//Comprobaciones para que no se salga de la panatalla:
 			if (((pelota.x - pelota.width / 2) < _minX) && (pelota.velocityX < 0)){

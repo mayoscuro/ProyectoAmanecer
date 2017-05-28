@@ -3,6 +3,7 @@ package{
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import starling.core.Starling;
+	import Navigation.Game;
 	
 	/**
 	 * ...
@@ -23,7 +24,7 @@ package{
 		{
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			mStarling = new Starling(Game, stage);
+			mStarling = new Starling(Navigation.Game, stage);
 			mStarling.antiAliasing = 3;
 			mStarling.start();
 		}

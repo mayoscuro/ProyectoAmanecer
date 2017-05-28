@@ -1,5 +1,6 @@
 package Menus 
 {
+	import Navigation.NavigationEvent;
 	import starling.display.Image;
 	import starling.display.Button;
 	import starling.display.Sprite;
@@ -69,13 +70,13 @@ package Menus
 		public function onButtonTriggered(e:Event):void{
 			var button:Button = e.target as Button;
 			if (button.name == "oneButton") {
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "playLevel1"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "playLevel1"}, true));
 			}else if(button.name == "twoButton"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "playLevel2"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "playLevel2"}, true));
 			}else if (button.name == "threeButton"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "playLevel3"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "playLevel3"}, true));
 			}else if(button.name == "backButton"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "exitLevelSelection"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "exitLevelSelection"}, true));
 			}
 		}
 		

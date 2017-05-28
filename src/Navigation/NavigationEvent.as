@@ -1,4 +1,4 @@
-package 
+package Navigation 
 {
 	import starling.events.Event;
 	

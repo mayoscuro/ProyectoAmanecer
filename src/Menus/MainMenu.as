@@ -1,5 +1,6 @@
 package Menus 
 {
+	import Navigation.NavigationEvent;
 	import starling.display.Sprite;
 	import starling.display.Button;
 	import starling.display.Image;
@@ -89,13 +90,13 @@ package Menus
 			var button:Button = e.target as Button;
 			//////removeEventListener(Event.TRIGGERED, onButtonTriggered);
 			if (button.name == "play") {		
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "play"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "play"}, true));
 			}else if(button.name == "credits"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "credits"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "credits"}, true));
 			}else if(button.name == "options"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "options"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "options"}, true));
 			}else if(button.name == "exit"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "exit"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "exit"}, true));
 			}
 		}
 		

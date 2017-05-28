@@ -1,5 +1,6 @@
 package Menus 
 {
+	import Navigation.NavigationEvent;
 	import starling.display.Image;
 	import starling.display.Button;
 	import starling.display.Sprite;
@@ -25,9 +26,9 @@ package Menus
 		private function drawScreen():void{
 			removeEventListener(Event.ADDED_TO_STAGE,drawScreen);
 			bg = new Image(Assets.getTexture("backgroudMenu"));
-			settingsTitle = new Image(Assets.getTexture("OPTIONS_title"));
+			settingsTitle = new Image(Assets.getTexture("credits_title"));
 			texto = new TextField(530,200,"");
-			backButton = new Button(Assets.getTexture("back"));//Imagen provisional.
+			backButton = new Button(Assets.getTexture("back"));
 			
 			addChild(bg);
 			addChild(settingsTitle);
@@ -58,7 +59,7 @@ package Menus
 		public function onButtonTriggered(e:Event):void{
 			var button:Button = e.target as Button;
 			if(button.name == "backButton"){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "exitCredits"}, true));
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "exitCredits"}, true));
 			}
 		}
 		

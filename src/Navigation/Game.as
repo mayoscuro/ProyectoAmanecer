@@ -1,4 +1,4 @@
-package 
+package Navigation 
 {
 	import Level1.Level1;
 	import Level2.Level2;
@@ -7,6 +7,7 @@ package
 	import Menus.LevelSelection;
 	import Menus.MainMenu;
 	import Menus.Settings;
+	import Navigation.NavigationEvent;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import flash.system.fscommand;
@@ -37,8 +38,8 @@ package
 			//removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("Soooooooooo");
 			
-			this.addEventListener(NavigationEvent.CHANGE_SCREEN, onChangeScreen);
-			this.addEventListener(NavigationEvent.CHANGE_SOUND, onChangeSound);
+			this.addEventListener(Navigation.NavigationEvent.CHANGE_SCREEN, onChangeScreen);
+			this.addEventListener(Navigation.NavigationEvent.CHANGE_SOUND, onChangeSound);
 			
 			levelSelection = new Menus.LevelSelection();
 			levelSelection.disposeTemporarily();
@@ -62,7 +63,7 @@ package
 			
 		}
 		
-		private function onChangeSound(event:NavigationEvent):void{
+		private function onChangeSound(event:Navigation.NavigationEvent):void{
 			switch(event.params.id){
 				case "soundOff":
 					sonidoActivo = false;
@@ -73,7 +74,7 @@ package
 			}
 		}
 		
-		private function onChangeScreen(event:NavigationEvent):void{
+		private function onChangeScreen(event:Navigation.NavigationEvent):void{
 			
 			switch(event.params.id){
 				
@@ -105,7 +106,11 @@ package
 					this.addChild(screenInGame2);
 					level = 2;
 					mainMenu.ocultar();
-					screenInGame2.initialize();
+					if(sonidoActivo){
+						screenInGame2.initialize();
+					}else{
+						screenInGame2.initializeWithoutSound();
+					}
 					break;
 				case "playLevel3":
 					mainMenu.ocultar();
@@ -140,7 +145,11 @@ package
 						screenInGame2 = new Level2();
 						screenInGame2.disposeTemporarily();
 						this.addChild(screenInGame2);
-						screenInGame2.initialize();
+						if(sonidoActivo){
+							screenInGame2.initialize();
+						}else{
+							screenInGame2.initializeWithoutSound();
+						}
 						level = 2;
 					}else if(level == 2){//Esto es de prueba por ahora.
 						removeChild(screenInGame2);

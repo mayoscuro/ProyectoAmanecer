@@ -75,10 +75,10 @@ package
 		[Embed(source = "../media/images/bola_congelada.png")]
 		public static const bola_congelada:Class;
 		
-		/*[Embed(source = "../media/Fondos/espacio 2.png")]
-		public static const space2:Class;
+		[Embed(source = "../media/images/credits_title.png")]
+		public static const credits_title:Class;
 		
-		[Embed(source = "../media/Fondos/espacio 3.png")]
+		/*[Embed(source = "../media/Fondos/espacio 3.png")]
 		public static const space3:Class;
 		
 		[Embed(source = "../media/Images/Nave vidas.png")]
