@@ -66,6 +66,7 @@ package Level2
 		
 		//Acabar nivel:
 		private var fin:Boolean = false;
+		private var todasCongeladas:Boolean =false;
 		
 		//NivelOculto:
 		private var oculto:Boolean = false;
@@ -227,24 +228,26 @@ package Level2
 			} 
 			
 			for each (var pelota in enemigos){
-				/*if(bullet.x > pelota.x - pelota.width / 2 && 
-					bullet.x < pelota.x + pelota.width / 2 &&
-					bullet.y > pelota.y - pelota.height / 2 && 
-					bullet.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.*/
 				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){
 						if(!silencio){//Cuando el sonido este activo
 							GlobalSound.playStopExplosion(true);
 						}
 						score += pelota.getScore();
 						//trace(score);
-						enemigos.removeAt(enemigos.indexOf(pelota));
+						if(pelota.isFreeze()){
+							pelota.setFreeze(false);
+						}else{
+							pelota.setFreeze(true);
+						}
+						/*enemigos.removeAt(enemigos.indexOf(pelota));
 						pelota.removeBall();
-						removeChild(pelota);
+						removeChild(pelota);*/
+						removeChild(bullet);
 					
 				}
 			}
 		}
-		
+	
 		private function onMouseMove(e:TouchEvent):void{
 			var touch:Touch = e.getTouch(this);
 			try{//Para que no se rompa el juego cuando el touch.phase sea null(el raton se salga de la pantalla).
@@ -284,7 +287,7 @@ package Level2
 			scoreText.text = "Score: " + score;
 			frames ++;
 			//20 FRAMES UN SEGUNDO;
-			trace(frames);
+			//trace(frames);
 			if (frames >= 20 && oculto == false){
 				segundos = 1;
 				frames = 0;
@@ -302,7 +305,10 @@ package Level2
 				ballCollision(pelota);
 			}
 			
-			if(enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
+			if(oculto == false && !fin){
+				todasCongeladas = comprobarCongeladas();
+			}
+			if(todasCongeladas && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
 				trace("Ya has ganado xD");
 				//this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "NivelCompletado"}, true));
 				levelfinalScoreText.text  = "Level Score: \n" + score;
@@ -321,6 +327,15 @@ package Level2
 				fin = true;
 			}
 			
+		}
+		
+		private function comprobarCongeladas(){
+			for each (var pelota in enemigos){
+				if(!pelota.isFreeze()){
+					return false;
+				}
+			}
+			return true;
 		}
 		
 		public function onButtonTriggered(e:Event):void{
@@ -366,8 +381,13 @@ package Level2
 			}
  
 			// actualizar la posición de la pelota:
-			pelota.x += pelota.velocityX;
-			pelota.y += pelota.velocityY;
+			if (!pelota.isFreeze()){//Si la pelota esta congelada no se mueve.
+				pelota.x += pelota.velocityX;
+				pelota.y += pelota.velocityY;
+			}else{
+				pelota.x += 0;
+				pelota.y += 0;
+			}
 		}
 		
 	}

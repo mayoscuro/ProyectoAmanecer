@@ -21,6 +21,7 @@ import flash.events.MouseEvent;
 		private var _velocityY:Number = 0;
 		private var ball:Image;
 		private var score:int = 5;
+		private var freeze = false;
 		
 		public function Ball(x:Number, y:Number, velocityX:Number, velocityY:Number) 
 		{
@@ -60,6 +61,14 @@ import flash.events.MouseEvent;
 		
 		public function getScore(): int{
 			return score;
+		}
+		
+		public function isFreeze(): Boolean{
+			return freeze;
+		}
+		
+		public function setFreeze(freeze:Boolean):void{
+			this.freeze = freeze;
 		}
 		
 		

@@ -334,7 +334,6 @@ package Level1
 		}
 		
 		public function ballCollision(pelota:Ball){
-			
 			for each (var otherBall in enemigos){
 				/*if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
 					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.*/

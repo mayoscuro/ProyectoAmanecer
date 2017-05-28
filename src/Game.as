@@ -103,13 +103,13 @@ package
 					screenInGame2 = new Level2();
 					screenInGame2.disposeTemporarily();
 					this.addChild(screenInGame2);
-					
+					level = 2;
 					mainMenu.ocultar();
 					screenInGame2.initialize();
 					break;
 				case "playLevel3":
 					mainMenu.ocultar();
-					level = 2;
+					level = 3;
 					screenInGame3.initialize();
 					break;
 				case "credits":
