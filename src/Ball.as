@@ -69,6 +69,11 @@ import flash.events.MouseEvent;
 		
 		public function setFreeze(freeze:Boolean):void{
 			this.freeze = freeze;
+			if(freeze){
+				ball.texture = Assets.getTexture("bola_congelada");
+			}else{
+				ball.texture = Assets.getTexture("bola_normal");
+			}
 		}
 		
 		

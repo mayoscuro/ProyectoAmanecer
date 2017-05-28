@@ -72,10 +72,10 @@ package
 		[Embed(source = "../media/images/next_level.png")]
 		public static const next_level:Class;
 		
-		/*[Embed(source = "../media/Fondos/espacio.png")]
-		public static const space:Class;
+		[Embed(source = "../media/images/bola_congelada.png")]
+		public static const bola_congelada:Class;
 		
-		[Embed(source = "../media/Fondos/espacio 2.png")]
+		/*[Embed(source = "../media/Fondos/espacio 2.png")]
 		public static const space2:Class;
 		
 		[Embed(source = "../media/Fondos/espacio 3.png")]

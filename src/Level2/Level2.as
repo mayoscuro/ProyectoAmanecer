@@ -309,6 +309,7 @@ package Level2
 				todasCongeladas = comprobarCongeladas();
 			}
 			if(todasCongeladas && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
+				deleteBalls();
 				trace("Ya has ganado xD");
 				//this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "NivelCompletado"}, true));
 				levelfinalScoreText.text  = "Level Score: \n" + score;
@@ -325,8 +326,16 @@ package Level2
 				levelCompleteText.visible = true;
 				GlobalSound.playStopTemita(false);
 				fin = true;
+				
 			}
 			
+		}
+		
+		private function deleteBalls(){//Para limpiar la pista de pelotas al terminar el juego.
+			for each(var pelota in enemigos){
+				pelota.removeBall();
+				removeChild(pelota);
+			}
 		}
 		
 		private function comprobarCongeladas(){

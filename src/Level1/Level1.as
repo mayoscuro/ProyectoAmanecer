@@ -320,9 +320,12 @@ package Level1
 				levelCompleteText.visible = true;
 				GlobalSound.playStopTemita(false);
 				fin = true;
+				
 			}
 			
 		}
+		
+	
 		
 		public function onButtonTriggered(e:Event):void{
 			
@@ -330,6 +333,7 @@ package Level1
 			if (button.name == "NextLevel") {
 				trace("Dentro");
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
+				
 			}
 		}
 		
