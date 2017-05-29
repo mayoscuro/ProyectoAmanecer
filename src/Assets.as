@@ -81,8 +81,8 @@ package
 		[Embed(source = "../media/images/level_complete.png")]
 		public static const level_complete:Class;
 		
-		/*[Embed(source = "../media/Images/Nave vidas.png")]
-		public static const lifes:Class;*/
+		[Embed(source = "../media/images/instructions.png")]
+		public static const instructions:Class;
 		
 		public static function getTexture(name:String):Texture {
 		if (gameTexture[name] == undefined) {

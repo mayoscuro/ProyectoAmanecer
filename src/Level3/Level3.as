@@ -140,7 +140,7 @@ package Level3
 				newRandomPositionY = Math.random() * (_maxY- _minY) + _minY;
  
 				//Ball usage: new Ball(x, y, velocity X, velocity Y);
-				ball = new GameObjects.Ball(newRandomPositionX, newRandomPositionY, newRandomVelX, newRandomVelY);
+				ball = new GameObjects.Ball(newRandomPositionX, newRandomPositionY, newVelX, newVelY);
 				ball.width = ball.width * 3;
 				enemigos.push(ball);
 				stage.addChild(ball);
