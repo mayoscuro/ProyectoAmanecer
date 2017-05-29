@@ -52,7 +52,7 @@ package Level3
 		private var torreta:GameObjects.Player;
 		private var ball:GameObjects.Ball;
 		
-		private const NUMBER_OF_BALLS = 10;
+		private const NUMBER_OF_BALLS = 4;
 		
 		// boundries
 		private var _minX:int;
@@ -129,18 +129,19 @@ package Level3
 		
 		private function spawnBalls():void{
 			var x:int = 0;
-			var newRandomVelX:Number;
-			var newRandomVelY:Number;
+			var newVelX:Number = 2;
+			var newVelY:Number = 3;
 			var newRandomPositionX:Number;
 			var newRandomPositionY:Number;
 			while (x<NUMBER_OF_BALLS){
-				newRandomVelX = Math.random() * 3 - 3;
-				newRandomVelY = Math.random() * 3 - 3;
+				/*newRandomVelX = Math.random() * 3 - 3;
+				newRandomVelY = Math.random() * 3 - 3;*/
 				newRandomPositionX = Math.random() * (_maxX- _minX) + _minX;
 				newRandomPositionY = Math.random() * (_maxY- _minY) + _minY;
  
 				//Ball usage: new Ball(x, y, velocity X, velocity Y);
 				ball = new GameObjects.Ball(newRandomPositionX, newRandomPositionY, newRandomVelX, newRandomVelY);
+				ball.width = ball.width * 3;
 				enemigos.push(ball);
 				stage.addChild(ball);
 				x = x + 1;
