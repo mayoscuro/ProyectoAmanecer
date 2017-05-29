@@ -239,11 +239,13 @@ package Level2
 						if(!silencio){//Cuando el sonido este activo
 							sound.playStopExplosion(true);
 						}
-						//score += pelota.getScore();
 						
-						if(pelota.isFreeze()){
+						
+						if (pelota.isFreeze()){
+							score -= pelota.getScore();
 							pelota.setFreeze(false);
 						}else{
+							score += pelota.getScore();
 							pelota.setFreeze(true);
 						}
 						removeChild(bullet);
@@ -282,16 +284,6 @@ package Level2
 			torreta.rotation = angleRadian;
 			//trace( Math.round(angleDegree) + "°");
 		}
-		
-		/*private function atLestOneBallFreeze(): Boolean{
-			for each(var pelota in enemigos){
-				if(pelota.isFreeze){
-					return true;
-				}
-			}
-			return false;
-		}*/
-		
 		
 		private function onEnterFrame(e:Event):void 
 		{
