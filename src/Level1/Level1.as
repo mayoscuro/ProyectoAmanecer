@@ -50,6 +50,8 @@ package Level1
 		private var torreta:GameObjects.Player;
 		private var ball:GameObjects.Ball;
 		
+		private const NUMBER_OF_BALLS = 10;
+		
 		// boundries
 		private var _minX:int;
 		private var _minY:int;
@@ -85,7 +87,6 @@ package Level1
 			this.visible = false;
 			oculto = true;
 			if (this.hasEventListener(Event.ENTER_FRAME)) this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-			//removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
 		}
 		
 		private function hideSpawnBalls():void{
@@ -130,7 +131,7 @@ package Level1
 			var newRandomVelY:Number;
 			var newRandomPositionX:Number;
 			var newRandomPositionY:Number;
-			while (x<10){
+			while (x<NUMBER_OF_BALLS){
 				newRandomVelX = Math.random() * 3 - 3;
 				newRandomVelY = Math.random() * 3 - 3;
 				newRandomPositionX = Math.random() * (_maxX- _minX) + _minX;
@@ -263,10 +264,10 @@ package Level1
 					if(!silencio){
 						sonido.playStopPiumPium(true);
 					}
-					var b = new GameObjects.PlayerBall(torreta.x,torreta.y);
-					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
-					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
-					addChild(b);
+					var bullet = new GameObjects.PlayerBall(torreta.x,torreta.y);
+					bullet.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
+					bullet.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
+					addChild(bullet);
 				}
 			}catch(e){
 				

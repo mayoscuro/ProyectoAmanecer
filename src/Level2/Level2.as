@@ -48,6 +48,7 @@ package Level2
 		private var bg:Image;
 		private var torreta:GameObjects.Player;
 		private var ball:GameObjects.Ball;
+		private const NUMBER_OF_BALLS = 10;
 		
 		// boundries
 		private var _minX:int;
@@ -130,7 +131,7 @@ package Level2
 			var newRandomVelY:Number;
 			var newRandomPositionX:Number;
 			var newRandomPositionY:Number;
-			while (x<10){
+			while (x<NUMBER_OF_BALLS){
 				newRandomVelX = Math.random() * 3 - 3;
 				newRandomVelY = Math.random() * 3 - 3;
 				newRandomPositionX = Math.random() * (_maxX- _minX) + _minX;
@@ -238,16 +239,13 @@ package Level2
 						if(!silencio){//Cuando el sonido este activo
 							sound.playStopExplosion(true);
 						}
-						score += pelota.getScore();
-						//trace(score);
+						//score += pelota.getScore();
+						
 						if(pelota.isFreeze()){
 							pelota.setFreeze(false);
 						}else{
 							pelota.setFreeze(true);
 						}
-						/*enemigos.removeAt(enemigos.indexOf(pelota));
-						pelota.removeBall();
-						removeChild(pelota);*/
 						removeChild(bullet);
 					
 				}
@@ -261,8 +259,6 @@ package Level2
 				{
 					mouseX = touch.globalX;
 					mouseY = touch.globalY;
-					//torreta.pivotX = torreta.width * 0.5 ;
-					//torreta.pivotY = torreta.height * 0.5 ;
 					
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
@@ -286,6 +282,15 @@ package Level2
 			torreta.rotation = angleRadian;
 			//trace( Math.round(angleDegree) + "°");
 		}
+		
+		/*private function atLestOneBallFreeze(): Boolean{
+			for each(var pelota in enemigos){
+				if(pelota.isFreeze){
+					return true;
+				}
+			}
+			return false;
+		}*/
 		
 		
 		private function onEnterFrame(e:Event):void 
@@ -341,6 +346,7 @@ package Level2
 			for each(var pelota in enemigos){
 				pelota.removeBall();
 				removeChild(pelota);
+				//enemigos.removeAt(enemigos.indexOf(pelota));
 			}
 		}
 		
