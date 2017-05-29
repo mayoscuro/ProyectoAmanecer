@@ -78,10 +78,10 @@ package
 		[Embed(source = "../media/images/credits_title.png")]
 		public static const credits_title:Class;
 		
-		/*[Embed(source = "../media/Fondos/espacio 3.png")]
-		public static const space3:Class;
+		[Embed(source = "../media/images/level_complete.png")]
+		public static const level_complete:Class;
 		
-		[Embed(source = "../media/Images/Nave vidas.png")]
+		/*[Embed(source = "../media/Images/Nave vidas.png")]
 		public static const lifes:Class;*/
 		
 		public static function getTexture(name:String):Texture {

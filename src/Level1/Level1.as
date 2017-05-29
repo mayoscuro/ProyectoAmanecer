@@ -16,6 +16,7 @@ package Level1
 	import starling.display.Sprite;
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
+	import starling.text.TextFormat;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import starling.events.Touch;
@@ -43,8 +44,9 @@ package Level1
 		private var levelfinalScoreText:TextField;
 		private var totalFinalScoreText:TextField;
 		private var buttonNewLevel:Button;
-		private var levelCompleteText:TextField;
-		
+		private var level_complete:Image;
+		private var textFormat:TextFormat = new TextFormat("Georgia", 24, 0x0);
+		private var textFormatLittle:TextFormat= new TextFormat("Georgia", 21, 0x0);
 	
 		private var bg:Image;
 		private var torreta:GameObjects.Player;
@@ -180,7 +182,7 @@ package Level1
 			addChild(levelfinalScoreText);
 			addChild(totalFinalScoreText);
 			addChild(buttonNewLevel);
-			addChild(levelCompleteText);
+			addChild(level_complete);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
@@ -191,34 +193,34 @@ package Level1
 		
 		private function InitializeText(){
 			
-			scoreText = new TextField(90,20,"Score: ");
+			scoreText = new TextField(140,35,"Score: ", textFormatLittle);
 			scoreText.x = (stage.stageWidth - scoreText.width) * 0.001;
-			scoreText.y = (stage.y + scoreText.height);
+			scoreText.y = (stage.y + scoreText.height) * 0.5;
 			
-			feedBackText = new TextField(250, 100, "");
+			feedBackText = new TextField(250, 100, "", textFormatLittle);
 			feedBackText.x = (stage.stageWidth * .5 - feedBackText.width * .5);
-			feedBackText.y = (stage.stageHeight - scoreText.height - torreta.y + (torreta.height / 2)) / 2;
+			feedBackText.y = (stage.stageHeight - scoreText.height - torreta.y + (torreta.height / 2)) / 1.75;
 			
-			levelfinalScoreText =  new TextField(100,60,"");
+			levelfinalScoreText =  new TextField(150,60,"", textFormatLittle);
 			levelfinalScoreText.x = (stage.stageWidth * .5 - levelfinalScoreText.width * .5) - levelfinalScoreText.width * 2;
-			levelfinalScoreText.y = (stage.stageHeight - levelfinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.8;
+			levelfinalScoreText.y = (stage.stageHeight - levelfinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.9;
 			
-			totalFinalScoreText =  new TextField(100,60,"");
+			totalFinalScoreText =  new TextField(150,60,"", textFormatLittle);
 			totalFinalScoreText.x = (stage.stageWidth * .5 - totalFinalScoreText.width * .5) + totalFinalScoreText.width * 2;
-			totalFinalScoreText.y = (stage.stageHeight - totalFinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.8;
+			totalFinalScoreText.y = (stage.stageHeight - totalFinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.9;
 			
 			buttonNewLevel = new Button(Assets.getTexture("next_level"));
-			buttonNewLevel.y = torreta.y * 1.2;
+			buttonNewLevel.y = torreta.y * 1.33;
 			buttonNewLevel.pivotX = buttonNewLevel.width / 2;
 			buttonNewLevel.x = (stage.stageWidth * .5 - torreta.width * .5); 
 			buttonNewLevel.visible = false;
 			buttonNewLevel.name = "NextLevel";
 			addEventListener(Event.TRIGGERED, onButtonTriggered);
 			
-			levelCompleteText = new TextField(250, 100, "LEVEL COMPLETE!");
-			levelCompleteText.x = (stage.stageWidth * .5 - levelCompleteText.width * .5);
-			levelCompleteText.y = (stage.y + levelCompleteText.height);
-			levelCompleteText.visible = false;
+			level_complete = new Image(Assets.getTexture("level_complete")); //new TextField(250, 100, "LEVEL COMPLETE!", textFormat);
+			level_complete.x = (stage.stageWidth * .5 - level_complete.width * .5);
+			level_complete.y = (stage.y + level_complete.height) * 0.5;
+			level_complete.visible = false;
 			
 		}
 		
@@ -320,7 +322,7 @@ package Level1
 				}
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
-				levelCompleteText.visible = true;
+				level_complete.visible = true;
 				sonido.playStopTemita(false);
 				fin = true;
 				

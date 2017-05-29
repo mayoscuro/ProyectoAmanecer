@@ -44,22 +44,22 @@ package Menus
 			backButton.height = backButton.height / 2.2;
 			
 			levelsTitle.pivotX = levelsTitle.width / 2;
-			levelsTitle.x = (stage.stageWidth * .5 - levelsTitle.width * .5) * 2;
-			levelsTitle.y = stage.stageHeight / 12;
+			levelsTitle.x = (stage.stageWidth * .5 - levelsTitle.width * .5) * 2.2;
+			levelsTitle.y = stage.stageHeight / 4;
 			
 			oneButton.pivotX = oneButton.width / 2;
-			oneButton.x = (stage.stageWidth * .5 - oneButton.width * .5) * 0.7;
-			oneButton.y = stage.stageHeight / 3;
+			oneButton.x = (stage.stageWidth * .5 - oneButton.width * .5) * 0.9;
+			oneButton.y = stage.stageHeight / 2;
 			oneButton.name = "oneButton";
 			
 			twoButton.pivotX = twoButton.width / 2;
-			twoButton.x = (stage.stageWidth * .5 - twoButton.width * .5);
-			twoButton.y = stage.stageHeight / 3;
+			twoButton.x = (stage.stageWidth * .5 - twoButton.width * .5) * 1.2;
+			twoButton.y = stage.stageHeight / 2;
 			twoButton.name = "twoButton";
 			
 			threeButton.pivotX = threeButton.width / 2;
-			threeButton.x = (stage.stageWidth * .5 - threeButton.width * .5) * 1.3 ;
-			threeButton.y = stage.stageHeight / 3;
+			threeButton.x = (stage.stageWidth * .5 - threeButton.width * .5) * 1.5;
+			threeButton.y = stage.stageHeight / 2;
 			threeButton.name = "threeButton";
 			
 			addEventListener(Event.TRIGGERED, onButtonTriggered);

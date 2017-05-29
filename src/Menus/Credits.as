@@ -6,6 +6,7 @@ package Menus
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.text.TextField;
+	import starling.text.TextFormat;
 	/**
 	 * ...
 	 * @author JesúsDavid
@@ -17,6 +18,7 @@ package Menus
 		private var settingsTitle:Image;
 		private var texto:TextField;
 		private var backButton:Button;
+		private var textFormat:TextFormat = new TextFormat("Georgia", 24, 0x0);
 		
 		public function Credits() 
 		{
@@ -27,7 +29,7 @@ package Menus
 			removeEventListener(Event.ADDED_TO_STAGE,drawScreen);
 			bg = new Image(Assets.getTexture("backgroudMenu"));
 			settingsTitle = new Image(Assets.getTexture("credits_title"));
-			texto = new TextField(530,200,"");
+			texto = new TextField(530, 200, "", textFormat);
 			backButton = new Button(Assets.getTexture("back"));
 			
 			addChild(bg);

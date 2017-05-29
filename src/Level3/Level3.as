@@ -16,6 +16,7 @@ package Level3
 	import starling.display.Sprite;
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
+	import starling.text.TextFormat;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import starling.events.Touch;
@@ -25,6 +26,7 @@ package Level3
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	import starling.display.Button;
+	import flash.geom.Point;
 	
 
 	
@@ -42,12 +44,15 @@ package Level3
 		private var levelfinalScoreText:TextField;
 		private var totalFinalScoreText:TextField;
 		private var buttonNewLevel:Button;
-		private var levelCompleteText:TextField;
-		
+		private var level_complete:Image;
+		private var textFormat:TextFormat = new TextFormat("Georgia", 24, 0x0);
+		private var textFormatLittle:TextFormat= new TextFormat("Georgia", 21, 0x0);
 	
 		private var bg:Image;
 		private var torreta:GameObjects.Player;
 		private var ball:GameObjects.Ball;
+		
+		private const NUMBER_OF_BALLS = 10;
 		
 		// boundries
 		private var _minX:int;
@@ -84,7 +89,6 @@ package Level3
 			this.visible = false;
 			oculto = true;
 			if (this.hasEventListener(Event.ENTER_FRAME)) this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-			//removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
 		}
 		
 		private function hideSpawnBalls():void{
@@ -129,7 +133,7 @@ package Level3
 			var newRandomVelY:Number;
 			var newRandomPositionX:Number;
 			var newRandomPositionY:Number;
-			while (x<10){
+			while (x<NUMBER_OF_BALLS){
 				newRandomVelX = Math.random() * 3 - 3;
 				newRandomVelY = Math.random() * 3 - 3;
 				newRandomPositionX = Math.random() * (_maxX- _minX) + _minX;
@@ -178,7 +182,7 @@ package Level3
 			addChild(levelfinalScoreText);
 			addChild(totalFinalScoreText);
 			addChild(buttonNewLevel);
-			addChild(levelCompleteText);
+			addChild(level_complete);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			addEventListener(TouchEvent.TOUCH, onMouseMove);
@@ -189,34 +193,34 @@ package Level3
 		
 		private function InitializeText(){
 			
-			scoreText = new TextField(90,20,"Score: ");
+			scoreText = new TextField(140,35,"Score: ", textFormatLittle);
 			scoreText.x = (stage.stageWidth - scoreText.width) * 0.001;
-			scoreText.y = (stage.y + scoreText.height);
+			scoreText.y = (stage.y + scoreText.height) * 0.5;
 			
-			feedBackText = new TextField(250, 100, "");
+			feedBackText = new TextField(250, 100, "", textFormatLittle);
 			feedBackText.x = (stage.stageWidth * .5 - feedBackText.width * .5);
-			feedBackText.y = (stage.stageHeight - scoreText.height - torreta.y + (torreta.height / 2)) / 2;
+			feedBackText.y = (stage.stageHeight - scoreText.height - torreta.y + (torreta.height / 2)) / 1.75;
 			
-			levelfinalScoreText =  new TextField(100,60,"");
+			levelfinalScoreText =  new TextField(150,60,"", textFormatLittle);
 			levelfinalScoreText.x = (stage.stageWidth * .5 - levelfinalScoreText.width * .5) - levelfinalScoreText.width * 2;
-			levelfinalScoreText.y = (stage.stageHeight - levelfinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.8;
+			levelfinalScoreText.y = (stage.stageHeight - levelfinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.9;
 			
-			totalFinalScoreText =  new TextField(100,60,"");
+			totalFinalScoreText =  new TextField(150,60,"", textFormatLittle);
 			totalFinalScoreText.x = (stage.stageWidth * .5 - totalFinalScoreText.width * .5) + totalFinalScoreText.width * 2;
-			totalFinalScoreText.y = (stage.stageHeight - totalFinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.8;
+			totalFinalScoreText.y = (stage.stageHeight - totalFinalScoreText.height - torreta.y + (torreta.height / 2)) * 0.9;
 			
 			buttonNewLevel = new Button(Assets.getTexture("next_level"));
-			buttonNewLevel.y = torreta.y * 1.2;
+			buttonNewLevel.y = torreta.y * 1.33;
 			buttonNewLevel.pivotX = buttonNewLevel.width / 2;
 			buttonNewLevel.x = (stage.stageWidth * .5 - torreta.width * .5); 
 			buttonNewLevel.visible = false;
 			buttonNewLevel.name = "NextLevel";
 			addEventListener(Event.TRIGGERED, onButtonTriggered);
 			
-			levelCompleteText = new TextField(250, 100, "LEVEL COMPLETE!");
-			levelCompleteText.x = (stage.stageWidth * .5 - levelCompleteText.width * .5);
-			levelCompleteText.y = (stage.y + levelCompleteText.height);
-			levelCompleteText.visible = false;
+			level_complete = new Image(Assets.getTexture("level_complete")); //new TextField(250, 100, "LEVEL COMPLETE!", textFormat);
+			level_complete.x = (stage.stageWidth * .5 - level_complete.width * .5);
+			level_complete.y = (stage.y + level_complete.height) * 0.5;
+			level_complete.visible = false;
 			
 		}
 		
@@ -233,11 +237,7 @@ package Level3
 			} 
 			
 			for each (var pelota in enemigos){
-				/*if(bullet.x > pelota.x - pelota.width / 2 && 
-					bullet.x < pelota.x + pelota.width / 2 &&
-					bullet.y > pelota.y - pelota.height / 2 && 
-					bullet.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que la destruya.*/
-				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){
+				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){	
 						if(!silencio){//Cuando el sonido este activo
 							sonido.playStopExplosion(true);
 						}
@@ -266,10 +266,10 @@ package Level3
 					if(!silencio){
 						sonido.playStopPiumPium(true);
 					}
-					var b = new GameObjects.PlayerBall(torreta.x,torreta.y);
-					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
-					b.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
-					addChild(b);
+					var bullet = new GameObjects.PlayerBall(torreta.x,torreta.y);
+					bullet.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
+					bullet.addEventListener(Event.ENTER_FRAME, bulletEnterFrame);//Para que la bola pueda ir actualizando su movimiento.
+					addChild(bullet);
 				}
 			}catch(e){
 				
@@ -322,12 +322,15 @@ package Level3
 				}
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
-				levelCompleteText.visible = true;
+				level_complete.visible = true;
 				sonido.playStopTemita(false);
 				fin = true;
+				
 			}
 			
 		}
+		
+	
 		
 		public function onButtonTriggered(e:Event):void{
 			
@@ -335,11 +338,11 @@ package Level3
 			if (button.name == "NextLevel") {
 				trace("Dentro");
 				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
+				
 			}
 		}
 		
 		public function ballCollision(pelota:GameObjects.Ball){
-			
 			for each (var otherBall in enemigos){
 				/*if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
 					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.*/
