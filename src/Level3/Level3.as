@@ -141,7 +141,8 @@ package Level3
  
 				//Ball usage: new Ball(x, y, velocity X, velocity Y);
 				ball = new GameObjects.Ball(newRandomPositionX, newRandomPositionY, newVelX, newVelY);
-				ball.width = ball.width * 3;
+				ball.width = ball.width * 4;
+				ball.height = ball.height * 4;
 				enemigos.push(ball);
 				stage.addChild(ball);
 				x = x + 1;

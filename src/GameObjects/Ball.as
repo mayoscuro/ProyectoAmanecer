@@ -22,6 +22,7 @@ import flash.events.MouseEvent;
 		private var ball:Image;
 		private var score:int = 5;
 		private var freeze = false;
+		private var giantBallFase: int = 1;
 		
 		public function Ball(x:Number, y:Number, velocityX:Number, velocityY:Number) 
 		{
@@ -53,6 +54,14 @@ import flash.events.MouseEvent;
 		public function set velocityY(value:Number):void 
 		{
 			_velocityY = value;
+		}
+		
+		public function getFase():int{
+			return giantBallFase;
+		}
+		
+		public function setBase(giantBallFase):void{
+			this.giantBallFase = giantBallFase;
 		}
 		
 		public function removeBall(){
