@@ -75,6 +75,7 @@ import flash.events.MouseEvent;
 		public function setFastBall(){
 			fast = true;
 			score = score + 30;
+			ball.texture = Assets.getTexture("bola_rapida");
 		}
 		
 		public function isFastBall(){

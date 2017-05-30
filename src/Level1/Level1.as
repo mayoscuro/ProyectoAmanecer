@@ -351,11 +351,11 @@ package Level1
 				levelfinalScoreText.text  = "Level Score: \n" + score;
 				GlobalScore.totalScore += score;
 				if(score > 1000){
-					feedBackText.text = "Perfecto, has hecho una buena puntuación, pero aun así eres tonto";
+					feedBackText.text = "Perfect, you have a good score";
 				}else if(score <= 1000 && score > 900){
-					feedBackText.text = "Aun eres un pedazo de manco impresionante, pero no esta todo perdido";
+					feedBackText.text = "Well, but you can do it better";
 				}else if(score <900){
-					feedBackText.text = "Mira tio, eres mas malo que pegar a un pare con un calcetin usado, jubilate ya, o juega al parchis";
+					feedBackText.text = "You have to train a lot, but in the future yo will obtain the better score";
 				}
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
@@ -407,12 +407,15 @@ package Level1
 				/*if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
 					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.*/
 				if(otherBall.getBounds(otherBall.parent).intersects(pelota.getBounds(pelota.parent))){		
-						otherBall.velocityX =  -otherBall.velocityX;
-						otherBall.velocityY= -otherBall.velocityY;
-						pelota.velocityX= -pelota.velocityX;
-						pelota.velocityY = - pelota.velocityY;
+					otherBall.velocityX =  -otherBall.velocityX;
+					otherBall.velocityY= -otherBall.velocityY;
+					pelota.velocityX= -pelota.velocityX;
+					pelota.velocityY = - pelota.velocityY;
 					
-					}
+				}/*else if(torreta.getBounds(torreta.parent).intersects(pelota.getBounds(pelota.parent))){
+					pelota.velocityX= -pelota.velocityX;
+					pelota.velocityY = - pelota.velocityY;
+				}*/
 			}
 		}
 		

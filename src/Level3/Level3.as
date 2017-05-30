@@ -37,6 +37,7 @@ package Level3
 
 	public class Level3 extends Sprite
 	{
+		var fastBall:Ball;
 		
 		//Textos:
 		private var scoreText:TextField;
@@ -150,6 +151,7 @@ package Level3
 				stage.addChild(ball);
 				x = x + 1;
 			}
+			fastBall = new GameObjects.Ball(0, newRandomPositionY, 4, 0);//Instancio la bola rapida, pero aun no hago nada
 		}
 		
 		public function Level3() 
@@ -176,7 +178,7 @@ package Level3
 			
 			bg =  new Image(Assets.getTexture("background"));
 			
-			segundosSpawnRapido = 30 * Math.random() + 10 //De 10 a 30 seg transcurridos.
+			segundosSpawnRapido = 30 * Math.random() + 10 
 			
 			InitializeText();
 			
@@ -270,12 +272,16 @@ package Level3
 			bullet.x +=  Math.cos(bullet.getAngleRadian) * bullet.velocityX;
 			bullet.y +=  Math.sin(bullet.getAngleRadian) * bullet.velocityY;
 			bullet.rotation = bullet.getAngleRadian * 180 / Math.PI;
-			if (bullet.x < 0 || bullet.x > 1000 || bullet.y < 0 || bullet.y > 700) {//Si se sale del mapa elimina la bola(del jugador).
+			if (bullet.x < _minX || bullet.x > _maxX || bullet.y < _minY || bullet.y > _maxY) {//Si se sale del mapa elimina la bola(del jugador).
 				removeChild(bullet);
 				bullet.removeEventListener(Event.ENTER_FRAME, bulletEnterFrame);
 			} 
 			
 			for each (var pelota in enemigos){
+				if(fastBall.isFastBall() && bullet.getBounds(bullet.parent).intersects(fastBall.getBounds(fastBall.parent))){
+					score += pelota.getScore();
+					removeChild(pelota);
+				}
 				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){	
 					if(!silencio){//Cuando el sonido este activo
 						sonido.playStopExplosion(true);
@@ -369,12 +375,9 @@ package Level3
 		}
 		
 		private function spawnFastBall():void{
-			var newRandomPositionY:Number = Math.random() * (_maxY- _minY) + _minY;
-			var ball = new GameObjects.Ball(0, newRandomPositionY, 10, 2);//three phase balls.
-			ball.setFase(1);
-			ball.setFastBall();//Convierte la pelota en rapida;
-			enemigos.push(ball);
-			stage.addChild(ball);
+			fastBall.setFase(1);
+			fastBall.setFastBall();//Convierte la pelota en rapida;
+			addChild(fastBall);
 		}
 		private function onEnterFrame(e:Event):void 
 		{
@@ -392,7 +395,6 @@ package Level3
 			}else{
 				segundos = 0;
 			}
-			
 			
 			//trace(fin);
 			//trace(oculto);
@@ -412,11 +414,11 @@ package Level3
 				levelfinalScoreText.text  = "Level Score: \n" + score;
 				GlobalScore.totalScore += score;
 				if(score > 1000){
-					feedBackText.text = "Perfecto, has hecho una buena puntuación, pero aun así eres tonto";
+					feedBackText.text = "Perfect, you have a good score";
 				}else if(score <= 1000 && score > 900){
-					feedBackText.text = "Aun eres un pedazo de manco impresionante, pero no esta todo perdido";
+					feedBackText.text = "Well, but you can do it better";
 				}else if(score <900){
-					feedBackText.text = "Mira tio, eres mas malo que pegar a un pare con un calcetin usado, jubilate ya, o juega al parchis";
+					feedBackText.text = "You have to train a lot, but in the future yo will obtain the better score";
 				}
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
@@ -507,6 +509,9 @@ package Level3
 			// actualizar la posición de la pelota:
 			pelota.x += pelota.velocityX;
 			pelota.y += pelota.velocityY;
+			if(fastBall.isFastBall()){
+				fastBall.x += fastBall.velocityX;
+			}
 		}
 		
 	}

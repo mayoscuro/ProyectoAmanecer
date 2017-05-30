@@ -356,11 +356,11 @@ package Level2
 				levelfinalScoreText.text  = "Level Score: \n" + score;
 				GlobalScore.totalScore += score;
 				if(score > 1000){
-					feedBackText.text = "Perfecto, has hecho una buena puntuación, pero aun así eres tonto";
+					feedBackText.text = "Perfect, you have a good score";
 				}else if(score <= 1000 && score > 900){
-					feedBackText.text = "Aun eres un pedazo de manco impresionante, pero no esta todo perdido";
+					feedBackText.text = "Well, but you can do it better";
 				}else if(score <900){
-					feedBackText.text = "Mira tio, eres mas malo que pegar a un pare con un calcetin usado, jubilate ya, o juega al parchis";
+					feedBackText.text = "You have to train a lot, but in the future yo will obtain the better score";
 				}
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
