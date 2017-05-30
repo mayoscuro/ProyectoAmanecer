@@ -45,10 +45,6 @@ package Navigation
 			levelSelection.disposeTemporarily();
 			this.addChild(levelSelection);
 			
-			screenInGame3 = new Level3();
-			screenInGame3.disposeTemporarily();
-			this.addChild(screenInGame3);
-			
 			settingsScreen = new Menus.Settings();
 			settingsScreen.disposeTemporarily();
 			addChild(settingsScreen);
@@ -113,9 +109,16 @@ package Navigation
 					}
 					break;
 				case "playLevel3":
-					mainMenu.ocultar();
+					screenInGame3 = new Level3();
+					screenInGame3.disposeTemporarily();
+					this.addChild(screenInGame3);
 					level = 3;
-					screenInGame3.initialize();
+					mainMenu.ocultar();
+					if(sonidoActivo){
+						screenInGame3.initialize();
+					}else{
+						screenInGame3.initializeWithoutSound();
+					}
 					break;
 				case "credits":
 					//Poner una clase con el titulo creditos y poner en texto los nombres (tampoco matarse mucho).
@@ -153,8 +156,21 @@ package Navigation
 						level = 2;
 					}else if(level == 2){//Esto es de prueba por ahora.
 						removeChild(screenInGame2);
-						mainMenu.initialize();
+						
+						screenInGame3 = new Level3();
+						screenInGame3.disposeTemporarily();
+						this.addChild(screenInGame3);
+						if(sonidoActivo){
+							screenInGame3.initialize();
+						}else{
+							screenInGame3.initializeWithoutSound();
+						}
+						level = 3;
+						
+					}else if(level == 3){
+						removeChild(screenInGame3);
 						level = 0;
+						mainMenu.initialize();
 					}
 					break;
 			}

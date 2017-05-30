@@ -84,6 +84,9 @@ package
 		[Embed(source = "../media/images/instructions.png")]
 		public static const instructions:Class;
 		
+		[Embed(source = "../media/images/bola_rapida.png")]
+		public static const bola_rapida:Class;
+		
 		public static function getTexture(name:String):Texture {
 		if (gameTexture[name] == undefined) {
 				var bitmap:Bitmap = new Assets[name]();

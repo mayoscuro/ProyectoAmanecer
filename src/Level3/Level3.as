@@ -72,6 +72,8 @@ package Level3
 		private var score:int = 1000;
 		var frames:int = 0;//Cuenta los frames.
 		var segundos:int = 0;//Cada 20 frames, un segundo.
+		var totalSegundos:int = 0;//Segundos de juego transcurridos.
+		var segundosSpawnRapido:int = 0;//Segundo en el que aparecerá la bola rapida.
 		
 		//Acabar nivel:
 		private var fin:Boolean = false;
@@ -141,8 +143,7 @@ package Level3
  
 				//Ball usage: new Ball(x, y, velocity X, velocity Y);
 				ball = new GameObjects.Ball(newRandomPositionX, newRandomPositionY, newVelX, newVelY);
-				ball.width = ball.width * 4;
-				ball.height = ball.height * 4;
+				ball.setFase(3);//three phase balls.
 				enemigos.push(ball);
 				stage.addChild(ball);
 				x = x + 1;
@@ -172,7 +173,7 @@ package Level3
 			
 			bg =  new Image(Assets.getTexture("background"));
 			
-			
+			segundosSpawnRapido = 30 * Math.random() + 10 //De 10 a 30 seg transcurridos.
 			
 			InitializeText();
 			
@@ -187,7 +188,7 @@ package Level3
 			addChild(level_complete);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			addEventListener(TouchEvent.TOUCH, onMouseMove);
+			stage.addEventListener(TouchEvent.TOUCH, onMouseMove);
 			torreta.addEventListener(Event.ENTER_FRAME, enterFrameTorreta);
 			
 			
@@ -240,28 +241,73 @@ package Level3
 			
 			for each (var pelota in enemigos){
 				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){	
-						if(!silencio){//Cuando el sonido este activo
-							sonido.playStopExplosion(true);
-						}
-						score += pelota.getScore();
-						//trace(score);
+					if(!silencio){//Cuando el sonido este activo
+						sonido.playStopExplosion(true);
+					}
+					score += pelota.getScore();
+						
+					if(pelota.getFase() == 1){//Si la pelota es fase 1 se destruye y listo
 						enemigos.removeAt(enemigos.indexOf(pelota));
 						pelota.removeBall();
 						removeChild(pelota);
-					
+					}else if(pelota.getFase() == 2){//Si la pelota es fase 2, cuando se queda sin vida se destruye y aparecen dos nuevas.
+						removeChild(bullet);
+						pelota.restarVida();
+						if(pelota.getVida() < 1){
+							var ball1 = new GameObjects.Ball(pelota.x - 20, pelota.y-20, -pelota.velocityX - (pelota.velocityX * 30) / 100, 
+							-pelota.velocityY - (pelota.velocityY * 30) / 100);
+							ball1.setFase(1);
+							var ball2 = new GameObjects.Ball(pelota.x + 20, pelota.y + 20, pelota.velocityX + (pelota.velocityX * 30) / 100, 
+							pelota.velocityY + (pelota.velocityY * 30) / 100);
+							ball2.setFase(1);
+							
+							enemigos.push(ball1);
+							enemigos.push(ball2);
+							
+							addChild(ball2);
+							addChild(ball1);
+							
+							removeChild(pelota);
+							pelota.removeBall();
+							enemigos.removeAt(enemigos.indexOf(pelota));
+						}
+					}else if(pelota.getFase() == 3){
+						
+						removeChild(bullet);
+						pelota.restarVida();
+						if(pelota.getVida() < 1){
+							var ball3 = new GameObjects.Ball(pelota.x - 40, pelota.y - 40, -pelota.velocityX - (pelota.velocityX * 30) / 100, 
+							-pelota.velocityY - (pelota.velocityY * 30) / 100);
+							ball3.setFase(2);
+							var ball4 = new GameObjects.Ball(pelota.x + 40, pelota.y + 40, pelota.velocityX + (pelota.velocityX * 30) / 100, 
+							pelota.velocityY + (pelota.velocityY * 30) / 100);
+							ball4.setFase(2);
+							
+							enemigos.push(ball3);
+							enemigos.push(ball4);
+							
+							addChild(ball3);
+							addChild(ball4);
+							
+							removeChild(pelota);
+							pelota.removeBall();
+							enemigos.removeAt(enemigos.indexOf(pelota));
+						}
+					}
+							
 				}
+					
+				
 			}
 		}
 		
 		private function onMouseMove(e:TouchEvent):void{
-			var touch:Touch = e.getTouch(this);
+			var touch:Touch = e.getTouch(stage);
 			try{//Para que no se rompa el juego cuando el touch.phase sea null(el raton se salga de la pantalla).
 				if(touch.phase == TouchPhase.HOVER && !fin)// si se mueve el raton
 				{
 					mouseX = touch.globalX;
 					mouseY = touch.globalY;
-					//torreta.pivotX = torreta.width * 0.5 ;
-					//torreta.pivotY = torreta.height * 0.5 ;
 					
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
@@ -286,19 +332,32 @@ package Level3
 			//trace( Math.round(angleDegree) + "°");
 		}
 		
-		
+		private function spawnFastBall():void{
+			var newRandomPositionY:Number = Math.random() * (_maxY- _minY) + _minY;
+			var ball = new GameObjects.Ball(0, newRandomPositionY, 10, 2);//three phase balls.
+			ball.setFase(1);
+			ball.setFastBall();//Convierte la pelota en rapida;
+			enemigos.push(ball);
+			stage.addChild(ball);
+		}
 		private function onEnterFrame(e:Event):void 
 		{
 			scoreText.text = "Score: " + score;
 			frames ++;
 			//20 FRAMES UN SEGUNDO;
-			trace(frames);
+			//trace(frames);
 			if (frames >= 20 && oculto == false){
 				segundos = 1;
+				totalSegundos += segundos;
 				frames = 0;
+				if(totalSegundos == segundosSpawnRapido){
+					spawnFastBall();
+				}
 			}else{
 				segundos = 0;
 			}
+			
+			
 			//trace(fin);
 			//trace(oculto);
 			if (!fin && oculto == false ){
@@ -310,7 +369,8 @@ package Level3
 				ballCollision(pelota);
 			}
 			
-			if(enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
+			if (enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
+				deleteBalls();
 				trace("Ya has ganado xD");
 				//this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "NivelCompletado"}, true));
 				levelfinalScoreText.text  = "Level Score: \n" + score;
@@ -326,12 +386,24 @@ package Level3
 				buttonNewLevel.visible = true;
 				level_complete.visible = true;
 				sonido.playStopTemita(false);
+				
+				//Eliminar listener:
+				removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				stage.removeEventListener(TouchEvent.TOUCH, onMouseMove);
+				torreta.removeEventListener(Event.ENTER_FRAME, enterFrameTorreta);
 				fin = true;
 				
 			}
 			
 		}
 		
+		private function deleteBalls(){//Para limpiar la pista de pelotas al terminar el juego.
+			for each(var pelota in enemigos){
+				pelota.removeBall();
+				removeChild(pelota);
+				//enemigos.removeAt(enemigos.indexOf(pelota));
+			}
+		}
 	
 		
 		public function onButtonTriggered(e:Event):void{
@@ -348,7 +420,8 @@ package Level3
 			for each (var otherBall in enemigos){
 				/*if(otherBall.x > pelota.x - pelota.width / 2 && otherBall.x < pelota.x + pelota.width / 2 &&
 					otherBall.y > pelota.y - pelota.height / 2 && otherBall.y < pelota.y + pelota.height / 2){//Si colisiona con una pelota enemiga, que rebote.*/
-				if(otherBall.getBounds(otherBall.parent).intersects(pelota.getBounds(pelota.parent))){		
+				if (otherBall.getBounds(otherBall.parent).intersects(pelota.getBounds(pelota.parent)) 
+				&& !pelota.isFastBall() && !otherBall.isFastBall()){	//La pelota rapida no colisiona con el resto.	
 						otherBall.velocityX =  -otherBall.velocityX;
 						otherBall.velocityY= -otherBall.velocityY;
 						pelota.velocityX= -pelota.velocityX;
@@ -365,15 +438,17 @@ package Level3
 		
 		private function ballMovement(pelota:GameObjects.Ball):void{
 
+			if(!pelota.isFastBall()){//La pelota rapida no tiene limites en la pantalla.
 			//Comprobaciones para que no se salga de la panatalla:
-			if (((pelota.x - pelota.width / 2) < _minX) && (pelota.velocityX < 0)){
-				pelota.velocityX = -pelota.velocityX;
-			}else if ((pelota.x + pelota.width / 2) > _maxX && (pelota.velocityX > 0)){
-				pelota.velocityX = -pelota.velocityX;
-			}else if (((pelota.y - pelota.height / 2) < _minY) && (pelota.velocityY < 0)){
-				pelota.velocityY = -pelota.velocityY
-			}else if (((pelota.y + pelota.height / 2) > _maxY) && (pelota.velocityY > 0)){
-				pelota.velocityY = -pelota.velocityY;
+				if (((pelota.x - pelota.width / 2) < _minX) && (pelota.velocityX < 0)){
+					pelota.velocityX = -pelota.velocityX;
+				}else if ((pelota.x + pelota.width / 2) > _maxX && (pelota.velocityX > 0)){
+					pelota.velocityX = -pelota.velocityX;
+				}else if (((pelota.y - pelota.height / 2) < _minY) && (pelota.velocityY < 0)){
+					pelota.velocityY = -pelota.velocityY
+				}else if (((pelota.y + pelota.height / 2) > _maxY) && (pelota.velocityY > 0)){
+					pelota.velocityY = -pelota.velocityY;
+				}
 			}
  
 			// actualizar la posición de la pelota:

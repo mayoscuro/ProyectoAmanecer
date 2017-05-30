@@ -22,7 +22,11 @@ import flash.events.MouseEvent;
 		private var ball:Image;
 		private var score:int = 5;
 		private var freeze = false;
-		private var giantBallFase: int = 1;
+		private var fase: int = 1;
+		private var vidaFase3:int = 3;
+		private var vidaFase2:int = 2;
+		private var vidaFase1:int = 1;
+		private var fast = false;
 		
 		public function Ball(x:Number, y:Number, velocityX:Number, velocityY:Number) 
 		{
@@ -56,14 +60,6 @@ import flash.events.MouseEvent;
 			_velocityY = value;
 		}
 		
-		public function getFase():int{
-			return giantBallFase;
-		}
-		
-		public function setBase(giantBallFase):void{
-			this.giantBallFase = giantBallFase;
-		}
-		
 		public function removeBall(){
 			removeChild(ball);
 		}
@@ -74,6 +70,55 @@ import flash.events.MouseEvent;
 		
 		public function isFreeze(): Boolean{
 			return freeze;
+		}
+		
+		public function setFastBall(){
+			fast = true;
+			score = score + 30;
+		}
+		
+		public function isFastBall(){
+			return fast;
+		}
+		
+		public function getVida():int{
+			
+			trace(vidaFase2);
+			if (fase == 2){
+				return vidaFase2;
+			}else if(fase == 3){
+				return vidaFase3;
+			}
+			return vidaFase1;
+		}
+		
+		public function restarVida():void{
+			if(fase == 1){
+				--vidaFase1;
+			}else if (fase == 2){
+				--vidaFase2;
+			}else if(fase == 3){
+				--vidaFase3;
+			}
+			
+		}
+		
+		public function getFase():int{
+			return fase;
+		}
+		
+		public function setFase(fase:int){
+			this.fase = fase;
+			if(this.fase == 1){
+				ball.height = ball.height;
+				ball.width = ball.width;
+			}else if(this.fase == 2){
+				ball.height = ball.height*2;
+				ball.width = ball.width * 2;
+			}else if(this.fase == 3){
+				ball.height = ball.height*4;
+				ball.width = ball.width * 4;
+			}
 		}
 		
 		public function setFreeze(freeze:Boolean):void{

@@ -185,7 +185,7 @@ package Level1
 			addChild(level_complete);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			addEventListener(TouchEvent.TOUCH, onMouseMove);
+			stage.addEventListener(TouchEvent.TOUCH, onMouseMove);
 			torreta.addEventListener(Event.ENTER_FRAME, enterFrameTorreta);
 			
 			
@@ -252,7 +252,7 @@ package Level1
 		}
 		
 		private function onMouseMove(e:TouchEvent):void{
-			var touch:Touch = e.getTouch(this);
+			var touch:Touch = e.getTouch(stage);
 			try{//Para que no se rompa el juego cuando el touch.phase sea null(el raton se salga de la pantalla).
 				if(touch.phase == TouchPhase.HOVER && !fin)// si se mueve el raton
 				{
@@ -324,6 +324,12 @@ package Level1
 				buttonNewLevel.visible = true;
 				level_complete.visible = true;
 				sonido.playStopTemita(false);
+				
+				//Eliminar listener:
+				removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				stage.removeEventListener(TouchEvent.TOUCH, onMouseMove);
+				torreta.removeEventListener(Event.ENTER_FRAME, enterFrameTorreta);
+				
 				fin = true;
 				
 			}
