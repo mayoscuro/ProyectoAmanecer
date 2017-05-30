@@ -82,6 +82,8 @@ package Level1
 		//Sonido:
 		private var silencio:Boolean = false;
 		private var sonido:GlobalSound;
+		private var soundButtonOn:Button;
+		private var soundButtonOff:Button;
 		
 		public function disposeTemporarily():void{
 			//sonido.playStopTemita(false);
@@ -157,10 +159,11 @@ package Level1
 		private function onAddedtoStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
-			sonido = new GlobalSound();
+			
+			initializeSound();
+			
 			setBoundries();
-			spawnBalls();
-			hideSpawnBalls();
+
 			
 			torreta = new GameObjects.Player();
 			torreta.pivotX = torreta.width/2;
@@ -172,7 +175,7 @@ package Level1
 			
 			
 			
-			InitializeText();
+			initializeText();
 			
 			
 			addChild(bg);
@@ -183,6 +186,11 @@ package Level1
 			addChild(totalFinalScoreText);
 			addChild(buttonNewLevel);
 			addChild(level_complete);
+			addChild(soundButtonOn);
+			addChild(soundButtonOff);
+			
+			spawnBalls();
+			hideSpawnBalls();
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			stage.addEventListener(TouchEvent.TOUCH, onMouseMove);
@@ -191,7 +199,36 @@ package Level1
 			
 		}
 		
-		private function InitializeText(){
+		private function initializeSound(){
+			sonido = new GlobalSound();
+			soundButtonOn = new Button(Assets.getTexture("soundOn"));
+			soundButtonOff = new Button(Assets.getTexture("soundOff"));
+			if(!silencio){
+				soundButtonOff.visible = false;
+			}else{
+				soundButtonOn.visible = false;
+			}
+			soundButtonOn.pivotX = soundButtonOn.width / 2;
+			soundButtonOn.width = soundButtonOn.width / 3;
+			soundButtonOn.height = soundButtonOn.height / 3;
+			soundButtonOn.x = (stage.stageWidth );
+			soundButtonOn.y = stage.stageHeight / 50;
+			soundButtonOn.name = "soundButtonOn";
+			
+			
+			soundButtonOff.pivotX = soundButtonOff.width / 2;
+			soundButtonOff.width = soundButtonOff.width / 3;
+			soundButtonOff.height = soundButtonOff.height / 3;	
+			soundButtonOff.x = (stage.stageWidth );
+			soundButtonOff.y = stage.stageHeight / 50;
+			soundButtonOff.name = "soundButtonOff";
+			
+			
+		
+		}
+		
+		
+		private function initializeText(){
 			
 			scoreText = new TextField(140,35,"Score: ", textFormatLittle);
 			scoreText.x = (stage.stageWidth - scoreText.width) * 0.001;
@@ -343,9 +380,26 @@ package Level1
 			var button:Button = e.target as Button;
 			if (button.name == "NextLevel") {
 				trace("Dentro");
+				removeEventListener(Event.TRIGGERED, onButtonTriggered);
 				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
 				
+			}else if (button.name == "soundButtonOn") {
+				soundButtonOn.visible = false;
+				soundButtonOff.visible = true;
+				silencio = false;
+				if(!fin){
+					sonido.playStopTemita(true);
+				}
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SOUND, {id: "soundOff"}, true));
+			}else if(button.name == "soundButtonOff"){
+				soundButtonOn.visible = true;
+				soundButtonOff.visible = false;
+				silencio = true;
+				sonido.playStopTemita(false);
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SOUND, {id: "soundOn"}, true));
+				
 			}
+		
 		}
 		
 		public function ballCollision(pelota:GameObjects.Ball){

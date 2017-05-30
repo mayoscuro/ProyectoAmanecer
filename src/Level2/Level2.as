@@ -79,8 +79,10 @@ package Level2
 		private var oculto:Boolean = false;
 		
 		//Sonido:
-		private var sound:GlobalSound;
+		private var sonido:GlobalSound;
 		private var silencio:Boolean = false;
+		private var soundButtonOn:Button;
+		private var soundButtonOff:Button;
 		
 		public function disposeTemporarily():void{
 			//sound.playStopTemita(false);
@@ -104,14 +106,14 @@ package Level2
 		}
 		
 		public function initialize():void{
-			sound.playStopTemita(true);
+			sonido.playStopTemita(true);
 			silencio = false;
 			this.visible = true;
 			oculto = false;
 			showSpawnBalls();
 		}
 		public function initializeWithoutSound():void{
-			sound.playStopTemita(false);
+			sonido.playStopTemita(false);
 			silencio = true;
 			this.visible = true;
 			oculto = false;
@@ -156,11 +158,13 @@ package Level2
 		
 		private function onAddedtoStage(e:Event):void 
 		{
-			sound = new GlobalSound();
+			
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
+			
+			initializeSound();
+			
 			setBoundries();
-			spawnBalls();
-			hideSpawnBalls();
+			
 			
 			torreta = new GameObjects.Player();
 			torreta.pivotX = torreta.width/2;
@@ -183,12 +187,44 @@ package Level2
 			addChild(totalFinalScoreText);
 			addChild(buttonNewLevel);
 			addChild(level_complete);
+			addChild(soundButtonOn);
+			addChild(soundButtonOff);
+			
+			spawnBalls();
+			hideSpawnBalls();
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			stage.addEventListener(TouchEvent.TOUCH, onMouseMove);
 			torreta.addEventListener(Event.ENTER_FRAME, enterFrameTorreta);
 			
 			
+		}
+		
+		private function initializeSound(){
+			sonido = new GlobalSound();
+			soundButtonOn = new Button(Assets.getTexture("soundOn"));
+			soundButtonOff = new Button(Assets.getTexture("soundOff"));
+			if(!silencio){
+				soundButtonOff.visible = false;
+			}else{
+				soundButtonOn.visible = false;
+			}
+			soundButtonOn.pivotX = soundButtonOn.width / 2;
+			soundButtonOn.width = soundButtonOn.width / 3;
+			soundButtonOn.height = soundButtonOn.height / 3;
+			soundButtonOn.x = (stage.stageWidth );
+			soundButtonOn.y = stage.stageHeight / 50;
+			soundButtonOn.name = "soundButtonOn";
+			
+			
+			soundButtonOff.pivotX = soundButtonOff.width / 2;
+			soundButtonOff.width = soundButtonOff.width / 3;
+			soundButtonOff.height = soundButtonOff.height / 3;	
+			soundButtonOff.x = (stage.stageWidth ) ;
+			soundButtonOff.y = stage.stageHeight / 50;
+			soundButtonOff.name = "soundButtonOff";
+			
+		
 		}
 		
 		private function InitializeText(){
@@ -239,7 +275,7 @@ package Level2
 			for each (var pelota in enemigos){
 				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){
 						if(!silencio){//Cuando el sonido este activo
-							sound.playStopExplosion(true);
+							sonido.playStopExplosion(true);
 						}
 						
 						
@@ -267,7 +303,7 @@ package Level2
 					
 				}else if(touch.phase == TouchPhase.BEGAN && !fin){//Si se pulsa en la pantalla(o click del raton)
 					if(!silencio){
-						sound.playStopPiumPium(true);
+						sonido.playStopPiumPium(true);
 					}
 					var b = new GameObjects.PlayerBall(torreta.x,torreta.y);
 					b.setAngleRadian = Math.atan2(mouseY - torreta.y,mouseX -torreta.x);
@@ -329,7 +365,7 @@ package Level2
 				totalFinalScoreText.text = "Total Score:\n" + GlobalScore.totalScore;
 				buttonNewLevel.visible = true;
 				level_complete.visible = true;
-				sound.playStopTemita(false);
+				sonido.playStopTemita(false);
 				
 				//Eliminar listener:
 				removeEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -364,7 +400,23 @@ package Level2
 			var button:Button = e.target as Button;
 			if (button.name == "NextLevel") {
 				trace("Dentro");
+				removeEventListener(Event.TRIGGERED, onButtonTriggered);
 				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "levelComplete"}, true));
+			}else if (button.name == "soundButtonOn") {
+				soundButtonOn.visible = false;
+				soundButtonOff.visible = true;
+				silencio = false;
+				if(!fin){
+					sonido.playStopTemita(true);
+				}
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SOUND, {id: "soundOff"}, true));
+			}else if(button.name == "soundButtonOff"){
+				soundButtonOn.visible = true;
+				soundButtonOff.visible = false;
+				silencio = true;
+				sonido.playStopTemita(false);
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SOUND, {id: "soundOn"}, true));
+				
 			}
 		}
 		
