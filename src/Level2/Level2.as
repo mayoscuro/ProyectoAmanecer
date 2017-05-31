@@ -44,6 +44,7 @@ package Level2
 		private var totalFinalScoreText:TextField;
 		private var buttonNewLevel:Button;
 		private var level_complete:Image;
+		private var backButton:Button;
 		private var textFormat:TextFormat = new TextFormat("Georgia", 24, 0x0);
 		private var textFormatLittle:TextFormat= new TextFormat("Georgia", 21, 0x0);
 	
@@ -189,6 +190,7 @@ package Level2
 			addChild(level_complete);
 			addChild(soundButtonOn);
 			addChild(soundButtonOff);
+			addChild(backButton);
 			
 			spawnBalls();
 			hideSpawnBalls();
@@ -251,6 +253,13 @@ package Level2
 			buttonNewLevel.x = (stage.stageWidth * .5 - torreta.width * .5); 
 			buttonNewLevel.visible = false;
 			buttonNewLevel.name = "NextLevel";
+			
+			backButton = new Button(Assets.getTexture("back"));//Imagen provisional.
+			backButton.name = "backButton";
+			backButton.width = backButton.width / 5;
+			backButton.height = backButton.height / 5;
+			backButton.y = stage.stageHeight - backButton.height;
+			
 			addEventListener(Event.TRIGGERED, onButtonTriggered);
 			
 			level_complete = new Image(Assets.getTexture("level_complete")); //new TextField(250, 100, "LEVEL COMPLETE!", textFormat);
@@ -274,15 +283,16 @@ package Level2
 			
 			for each (var pelota in enemigos){
 				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){
-						if(!silencio){//Cuando el sonido este activo
-							sonido.playStopExplosion(true);
-						}
-						
-						
 						if (pelota.isFreeze()){
+							if(!silencio){//Cuando el sonido este activo
+								sonido.playStopUnfreeze(true);
+							}
 							score -= pelota.getScore();
 							pelota.setFreeze(false);
 						}else{
+							if(!silencio){//Cuando el sonido este activo
+								sonido.playStopFreeze(true);
+							}
 							score += pelota.getScore();
 							pelota.setFreeze(true);
 						}
@@ -417,6 +427,10 @@ package Level2
 				sonido.playStopTemita(false);
 				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SOUND, {id: "soundOn"}, true));
 				
+			}else if(button.name == "backButton"){
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "mainMenuLevel2"}, true));
+				deleteBalls();
+				sonido.playStopTemita(false );
 			}
 		}
 		

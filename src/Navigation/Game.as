@@ -141,6 +141,21 @@ package Navigation
 					mainMenu.initialize();
 					creditsScreen.disposeTemporarily();
 					break;
+				case "mainMenuLevel2":
+					removeChild(screenInGame2);
+					levelSelection.initialize();
+					level = 0;
+					break;
+				case "mainMenuLevel1":
+					removeChild(screenInGame);
+					levelSelection.initialize();
+					level = 0;
+					break;
+				case "mainMenuLevel3":
+					removeChild(screenInGame3);
+					levelSelection.initialize();
+					level = 0;
+					break;
 				case "levelComplete":
 					if (level == 1){
 						removeChild(screenInGame);

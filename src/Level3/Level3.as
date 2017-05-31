@@ -46,6 +46,7 @@ package Level3
 		private var totalFinalScoreText:TextField;
 		private var buttonNewLevel:Button;
 		private var level_complete:Image;
+		private var backButton:Button;
 		private var textFormat:TextFormat = new TextFormat("Georgia", 24, 0x0);
 		private var textFormatLittle:TextFormat= new TextFormat("Georgia", 21, 0x0);
 	
@@ -165,8 +166,6 @@ package Level3
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedtoStage);
 			
-			initializeSound();
-			
 			setBoundries();
 			
 			
@@ -193,6 +192,7 @@ package Level3
 			addChild(level_complete);
 			addChild(soundButtonOn);
 			addChild(soundButtonOff);
+			addChild(backButton);
 			
 			spawnBalls();
 			hideSpawnBalls();
@@ -256,6 +256,13 @@ package Level3
 			buttonNewLevel.x = (stage.stageWidth * .5 - torreta.width * .5); 
 			buttonNewLevel.visible = false;
 			buttonNewLevel.name = "NextLevel";
+			
+			backButton = new Button(Assets.getTexture("back"));//Imagen provisional.
+			backButton.name = "backButton";
+			backButton.width = backButton.width / 5;
+			backButton.height = backButton.height / 5;
+			backButton.y = stage.stageHeight - backButton.height;
+			
 			addEventListener(Event.TRIGGERED, onButtonTriggered);
 			
 			level_complete = new Image(Assets.getTexture("level_complete")); //new TextField(250, 100, "LEVEL COMPLETE!", textFormat);
@@ -467,7 +474,10 @@ package Level3
 				silencio = true;
 				sonido.playStopTemita(false);
 				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SOUND, {id: "soundOn"}, true));
-				
+			}else if(button.name == "backButton"){
+				this.dispatchEvent(new Navigation.NavigationEvent(Navigation.NavigationEvent.CHANGE_SCREEN, {id: "mainMenuLevel3"}, true));
+				deleteBalls();
+				sonido.playStopTemita(false );
 			}
 		}
 		
