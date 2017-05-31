@@ -152,7 +152,7 @@ package Level3
 				stage.addChild(ball);
 				x = x + 1;
 			}
-			fastBall = new GameObjects.Ball(0, newRandomPositionY, 4, 0);//Instancio la bola rapida, pero aun no hago nada
+			fastBall = new GameObjects.Ball(0, newRandomPositionY, 3, 0);//Instancio la bola rapida, pero aun no hago nada
 		}
 		
 		public function Level3() 
@@ -288,9 +288,10 @@ package Level3
 			for each (var pelota in enemigos){
 				if(fastBall.isFastBall() && bullet.getBounds(bullet.parent).intersects(fastBall.getBounds(fastBall.parent))){
 					score += pelota.getScore();
+					fastBall.removeBall();
 					removeChild(pelota);
-				}
-				if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){	
+					
+				}else if(bullet.getBounds(bullet.parent).intersects(pelota.getBounds(pelota.parent))){	
 					if(!silencio){//Cuando el sonido este activo
 						sonido.playStopExplosion(true);
 					}
@@ -400,6 +401,10 @@ package Level3
 				if(totalSegundos == segundosSpawnRapido){
 					spawnFastBall();
 				}
+				if(fastBall!=null && fastBall.x > stage.stageWidth){
+					fastBall.removeBall();
+					removeChild(fastBall);
+				}
 			}else{
 				segundos = 0;
 			}
@@ -414,7 +419,7 @@ package Level3
 				ballMovement(pelota);
 				ballCollision(pelota);
 			}
-			
+			trace (enemigos.length);
 			if (enemigos.length == 0 && !fin){//Cuando ya no quedan enemigos, el jugador ha ganado.
 				deleteBalls();
 				trace("Ya has ganado xD");
