@@ -168,6 +168,7 @@ package Level3
 			
 			setBoundries();
 			
+			initializeSound();
 			
 			torreta = new GameObjects.Player();
 			torreta.pivotX = torreta.width/2;
